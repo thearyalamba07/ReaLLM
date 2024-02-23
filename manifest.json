@@ -14,8 +14,6 @@
     {
       "js": ["src/content_scraper.js"],
       "matches": [
-        "https://developer.chrome.com/docs/extensions/*",
-        "https://developer.chrome.com/docs/webstore/*",
         "https://chat.openai.com/*"
       ]
     }
