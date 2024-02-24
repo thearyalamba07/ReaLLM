@@ -4,6 +4,10 @@
   "description": "Save the Planet by improving your LLM prompts ",
   "version": "0.1.0",
 
+  "action": {
+    "default_popup": "src/hello.html"
+  },
+
   "icons": {
     "16": "assets/icon-16.png",
     "32": "assets/icon-32.png",
@@ -13,9 +17,7 @@
   "content_scripts": [
     {
       "js": ["src/content_scraper.js"],
-      "matches": [
-        "https://chat.openai.com/*"
-      ]
+      "matches": ["https://chat.openai.com/*"]
     }
   ]
 }
