@@ -26,6 +26,8 @@ html {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  border-bottom: 2px solid #4caf50; /* Add a thin green line */
+  padding-bottom: 10px; /* Add some padding to separate the line from the content below */
 }
 
 .text-logo {
@@ -128,6 +130,7 @@ input:checked + .slider {
   color: #333;
   font-size: 16px;
   min-height: 60px;
+  border: 2px solid #4caf50; /* Add a green border */
 }
 
 .slider:before {
