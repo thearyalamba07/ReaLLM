@@ -10,6 +10,7 @@ function numTokens(text) {
   const numToken = encoded.length;
 
   enc.free();
+  console.log("numTokens: ", numToken);
   return numToken;
 }
 
