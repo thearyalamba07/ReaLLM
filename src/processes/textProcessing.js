@@ -20,6 +20,7 @@ async function correctSentence(sentence) {
 async function main(sentence) {
   text = removePunctuation(sentence);
   text = await correctSentence(text);
+  return text;
 }
 
 module.exports = {
