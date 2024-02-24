@@ -13,6 +13,14 @@ if (textArea) {
     const words = text.match(/[^\s]+/g);
     wordCount = words ? words.length : 0;
 
-    badge.textContent = `Word count: ${wordCount}`;
+    chrome.runtime.sendMessage(
+      { action: "executeFunction", text: text },
+      function (response) {
+        badge.textContent = `Token count: ${response.result}`;
+        console.log("Response from background script:", response.result);
+      },
+    );
+
+    // badge.textContent = `Word count: ${wordCount}`;
   });
 }
