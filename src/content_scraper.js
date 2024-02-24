@@ -22,17 +22,5 @@ if (textArea) {
       },
     );
 
-<<<<<<< HEAD
-    chrome.runtime.sendMessage(
-      { action: "executeFunction", text: text },
-      function (response) {
-        badge.textContent = `Token count: ${response.result}`;
-        console.log("Response from background script:", response.result);
-      },
-    );
-
-    // badge.textContent = `Word count: ${wordCount}`;
-=======
->>>>>>> 282ac85 (figured out background api calls)
   });
 }
