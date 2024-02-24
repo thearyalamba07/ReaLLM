@@ -8,10 +8,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     fetch(apiUrl, {
       method: "POST",
-      // mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
-        // You might need additional headers, such as authorization headers
       },
       body: JSON.stringify(promptData),
     })
@@ -25,7 +23,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
          * data.google_search contains the first google search link
          */
         console.log(data);
-        sendResponse({ message: data.output_string });
+        sendResponse({
+          message: data.output_string,
+          token:
+            parseInt(data.tokens_original) - parseInt(data.tokens_processed),
+        });
       })
       .catch((error) => {
         console.error("Fetch error:", error);

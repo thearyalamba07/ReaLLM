@@ -5,22 +5,21 @@ if (textArea) {
   var wordCount = "";
 
   const badge = document.createElement("p");
-  badge.textContent = `how many tokens????  ${wordCount}`;
+  badge.textContent = `Processing...`;
   textArea.insertAdjacentElement("afterend", badge);
 
   textArea.addEventListener("input", function () {
-    const text = textArea.value;
-    // const words = text.match(/[^\s]+/g);
-    // wordCount = words ? words.length : 0;
-
-    chrome.runtime.sendMessage(
-      { action: "runFunction", inputString: text },
-      function (response) {
-        wordCount = response.message;
-        console.log(wordCount);
-          badge.textContent = `token count: ${wordCount}`;
-      },
-    );
-
+    if (event.data === " ") {
+      const text = textArea.value;
+      chrome.runtime.sendMessage(
+        { action: "runFunction", inputString: text },
+        function (response) {
+          prompt = response.message;
+          num_tokens = response.token;
+          console.log(prompt);
+          badge.textContent = `Processed prompt: ${prompt}\nNo. of tokens: ${num_tokens}`;
+        },
+      );
+    }
   });
 }
