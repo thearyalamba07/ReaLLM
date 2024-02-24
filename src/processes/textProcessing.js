@@ -1,7 +1,10 @@
 const didYouMean = require("google-did-you-mean");
 
 function removePunctuation(text) {
-  return text.replace(/[.,;:?!'"]/g, "").toLowerCase();
+  return text
+    .replace(/[.,;:?!'"]/g, "")
+    .toLowerCase()
+    .trim();
 }
 
 async function correctSpelling(word) {
@@ -24,5 +27,6 @@ async function main(sentence) {
 }
 
 module.exports = {
+  removePunctuation,
   main,
 };
