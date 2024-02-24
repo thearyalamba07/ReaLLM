@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "axios": "^1.6.7",
-    "google-did-you-mean": "^2.0.0",
-    "tiktoken": "^1.0.13",
-    "typo-js": "^1.2.4"
-  }
-}
