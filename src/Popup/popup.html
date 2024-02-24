@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ReaLLM Extension</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="extension-container">
@@ -15,22 +15,8 @@
           <span class="slider round"></span>
         </label>
       </div>
-      <div id="content-container" style="display: none">
-        <div class="meter">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value="50"
-            class="slider"
-            id="reallm-meter"
-            readonly
-          />
-          <div class="meter-value" id="meter-value"></div>
-        </div>
-        <div class="dialogue-window" id="dialogue-window">
-          Backend response goes here...
-        </div>
+      <div class="dialogue-window" id="dialogue-window" style="display: none">
+        Backend response goes here...
       </div>
     </div>
     <script src="script.js"></script>
