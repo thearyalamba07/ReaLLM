@@ -37,3 +37,4 @@ GPS              Global Positioning System
 IMF              International Monetary Fund
 WHO              World Health Organization
 UNESCO           United Nations Educational, Scientific and Cultural Organization
+NLP              Natural Language Processing
