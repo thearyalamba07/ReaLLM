@@ -1,3 +1,9 @@
+let tokenCount = 0;
+
+chrome.storage.local.get(["tokenCount"], function (result) {
+  tokenCount = result.tokenCount || 0;
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "runFunction") {
     const apiUrl = "https://reallm-backend.onrender.com/update_string";
@@ -35,5 +41,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
 
     return true;
+  }
+
+  if (request.action === "updateTokenCount") {
+    tokenCount += request.numTokens;
+    chrome.storage.local.set({ tokenCount });
+  }
+
+  if (request.action === "getTokenCount") {
+    sendResponse({ tokenCount });
   }
 });

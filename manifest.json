@@ -10,6 +10,7 @@
     "128": "assets/new128.png"
   },
 
+  "permissions": ["storage"],
   "action": {
     "default_popup": "src/Popup/popup.html"
   },

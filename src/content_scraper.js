@@ -1,12 +1,19 @@
 const textArea = document.getElementById("prompt-textarea");
 
 if (textArea) {
-  // const text = textArea.textContent;
   var wordCount = "";
 
   const badge = document.createElement("p");
   badge.textContent = `Processing...`;
   textArea.insertAdjacentElement("afterend", badge);
+
+  const tokbadge = document.createElement("p");
+  badge.textContent = `...`;
+  textArea.insertAdjacentElement("afterend", tokbadge);
+
+  const button = document.createElement("button");
+  button.textContent = "Click Me";
+  textArea.insertAdjacentElement("afterend", button);
 
   textArea.addEventListener("input", function () {
     if (event.data === " ") {
@@ -16,10 +23,25 @@ if (textArea) {
         function (response) {
           prompt = response.message;
           num_tokens = response.token;
-          console.log(prompt);
-          badge.textContent = `Processed prompt: ${prompt}\nNo. of tokens: ${num_tokens}`;
+          updateTokBadge(num_tokens);
+          badge.textContent = `Processed prompt: ${prompt}`;
         },
       );
     }
   });
+
+  button.addEventListener("click", function () {
+    if (badge.textContent.includes("Processing") || badge.textContent == "") {
+      alert("Processing... Please wait.");
+    } else {
+      textArea.value = badge.textContent.substring(18);
+      badge.textContent = "";
+      num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
+      chrome.runtime.sendMessage({ action: "updateTokenCount", numTokens: num_tokens});
+    }
+  });
+
+  function updateTokBadge(tokenCount) {
+    tokbadge.textContent = `Tokens saved: ${tokenCount}`;
+  }
 }
