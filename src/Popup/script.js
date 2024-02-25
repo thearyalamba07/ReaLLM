@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function turnOn() {
-    dialogueWindow.textContent = `on`;
+    // dialogueWindow.textContent = `on`;
     chrome.runtime.sendMessage(
       { action: "getTokenCount" },
       function (response) {
@@ -51,14 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   turnOn();
-  dialogueWindow.style.display = "block";
+  // dialogueWindow.style.display = "block";
 
   toggleSwitch.addEventListener("change", function () {
     if (this.checked) {
       turnOn();
     } else {
       tokenSaved.textContent = `...`;
-      dialogueWindow.textContent = `...`;
+      // dialogueWindow.textContent = `...`;
       carbonFootprint.textContent = `...`;
     }
   });
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "displayPromptContent") {
-    document.getElementById("dialogue-window").innerText = request.promptContent;
+    document.getElementById("dialogue-window").innerText =
+      request.promptContent;
   }
 });
