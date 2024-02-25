@@ -97,8 +97,8 @@ if (textArea) {
         "",
       );
       textArea.value = processedPrompt;
-      badge.textContent = "";
-      tokbadge.textContent = "";
+      badge.textContent = "Processed prompt:";
+      tokbadge.textContent = "Tokens saved: 0";
       const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
       chrome.runtime.sendMessage({
         action: "updateTokenCount",
