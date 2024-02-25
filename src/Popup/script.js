@@ -1,7 +1,41 @@
+// document.addEventListener("DOMContentLoaded", function () {
+//   var toggleSwitch = document.getElementById("toggle-switch");
+//   var dialogueWindow = document.getElementById("dialogue-window");
+//   var tokenSaved = document.getElementById("token-count");
+
+//   function turnOn() {
+//     dialogueWindow.textContent = `on`;
+//     chrome.runtime.sendMessage(
+//       { action: "getTokenCount" },
+//       function (response) {
+//         const num_tokens = response.num;
+//         tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
+//       },
+//     );
+//   }
+
+//   turnOn();
+//   dialogueWindow.style.display = "block";
+
+//   toggleSwitch.addEventListener("change", function () {
+//     if (this.checked) {
+//       turnOn();
+//     } else {
+//       tokenSaved.textContent = `...`;
+//       dialogueWindow.textContent = `...`;
+//     }
+//   });
+// });
+
 document.addEventListener("DOMContentLoaded", function () {
   var toggleSwitch = document.getElementById("toggle-switch");
   var dialogueWindow = document.getElementById("dialogue-window");
   var tokenSaved = document.getElementById("token-count");
+  var carbonFootprint = document.getElementById("carbon-footprint");
+
+  function calculateCarbonFootprint(numTokens) {
+    return numTokens * (70 / 400);
+  }
 
   function turnOn() {
     dialogueWindow.textContent = `on`;
@@ -9,7 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
       { action: "getTokenCount" },
       function (response) {
         const num_tokens = response.num;
-        tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
+        tokenSaved.textContent = `Total Tokens saved: ${num_tokens}`;
+        var carbonSaved = calculateCarbonFootprint(num_tokens);
+        carbonFootprint.textContent = `Total Carbon saved: ${carbonSaved.toFixed(2)} grams`;
       },
     );
   }
@@ -23,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       tokenSaved.textContent = `...`;
       dialogueWindow.textContent = `...`;
+      carbonFootprint.textContent = `...`;
     }
   });
 });
