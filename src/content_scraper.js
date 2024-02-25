@@ -16,7 +16,8 @@ if (textArea) {
   textArea.insertAdjacentElement("afterend", button);
 
   textArea.addEventListener("input", function () {
-    if (event.data === " ") {
+    const inputData = event.data;
+    if (inputData === " " || inputData.match(/[.,!;:()]/)) {
       const text = textArea.value;
       chrome.runtime.sendMessage(
         { action: "runFunction", inputString: text },
@@ -29,6 +30,22 @@ if (textArea) {
       );
     }
   });
+  textArea.addEventListener("keydown", function (event) {
+    if (event.key === "Backspace") {
+      setTimeout(() => {
+        const text = textArea.value;
+        chrome.runtime.sendMessage(
+          { action: "runFunction", inputString: text },
+          function (response) {
+            prompt = response.message;
+            num_tokens = response.token;
+            updateTokBadge(num_tokens);
+            badge.textContent = `Processed prompt: ${prompt}`;
+          },
+        );
+      }, 0);
+    }
+  });
 
   button.addEventListener("click", function () {
     if (badge.textContent.includes("Processing") || badge.textContent == "") {
@@ -37,7 +54,10 @@ if (textArea) {
       textArea.value = badge.textContent.substring(18);
       badge.textContent = "";
       num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
-      chrome.runtime.sendMessage({ action: "updateTokenCount", numTokens: num_tokens});
+      chrome.runtime.sendMessage({
+        action: "updateTokenCount",
+        numTokens: num_tokens,
+      });
     }
   });
 
