@@ -7,7 +7,7 @@ chrome.storage.local.get(["tokenCount"], function (result) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   if (request.action === "runFunction") {
-    const apiUrl = "https://reallm-backend.onrender.com/update_string";
+    const apiUrl = "http://127.0.0.1:8000/update_string";
     const promptData = {
       input_string: request.inputString,
     };
