@@ -26,3 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "displayPromptContent") {
+    document.getElementById("dialogue-window").innerText = request.promptContent;
+  }
+});
