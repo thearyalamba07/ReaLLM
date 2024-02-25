@@ -1,19 +1,51 @@
 const textArea = document.getElementById("prompt-textarea");
 
 if (textArea) {
-  var wordCount = "";
+  const separator = document.createElement("hr");
+  separator.style.borderTop = "1px solid white";
+  separator.style.width = "87%";
+  separator.style.marginLeft = "auto";
+  separator.style.marginRight = "auto";
+  textArea.insertAdjacentElement("afterend", separator);
+
+  const badgeContainer = document.createElement("div");
+  badgeContainer.style.display = "flex";
+  badgeContainer.style.flexDirection = "column"; // Stack elements vertically
+  badgeContainer.style.alignItems = "flex-start"; // Align items to the start
+  badgeContainer.style.paddingLeft = "52px";
+  separator.insertAdjacentElement("afterend", badgeContainer);
+
+  const tokbadge = document.createElement("p");
+  tokbadge.textContent = `Tokens saved: ...`;
+  tokbadge.style.color = "white";
+  tokbadge.style.margin = "2";
+  tokbadge.style.paddingLeft = "6px";
+  tokbadge.style.fontWeight = "400";
+  tokbadge.style.fontSize = "14px";
+  badgeContainer.appendChild(tokbadge); // Add the token badge to the container
+
+  const processedContainer = document.createElement("div"); // Create a container for the badge and button
+  processedContainer.style.display = "flex"; // Set the display to flex for horizontal alignment
+  processedContainer.style.alignItems = "center"; // Align items vertically in the center
+  badgeContainer.appendChild(processedContainer); // Add the processed container to the badge container
+
+  const arrowButton = document.createElement("button");
+  arrowButton.innerHTML = "&#x27A4;";
+  arrowButton.style.border = "none";
+  arrowButton.style.background = "transparent";
+  arrowButton.style.color = "red";
+  arrowButton.style.fontSize = "16px";
+  arrowButton.style.cursor = "pointer";
+  arrowButton.style.padding = "6px 8px";
+  processedContainer.appendChild(arrowButton); // Add the button to the processed container
 
   const badge = document.createElement("p");
   badge.textContent = `Processing...`;
-  textArea.insertAdjacentElement("afterend", badge);
-
-  const tokbadge = document.createElement("p");
-  badge.textContent = `...`;
-  textArea.insertAdjacentElement("afterend", tokbadge);
-
-  const button = document.createElement("button");
-  button.textContent = "Click Me";
-  textArea.insertAdjacentElement("afterend", button);
+  badge.style.color = "white";
+  badge.style.margin = "0";
+  badge.style.fontWeight = "400";
+  badge.style.fontSize = "14px";
+  processedContainer.appendChild(badge); // Add the badge to the processed container
 
   textArea.addEventListener("input", function () {
     const inputData = event.data;
