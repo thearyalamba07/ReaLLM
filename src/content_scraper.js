@@ -37,7 +37,10 @@ if (textArea) {
       textArea.value = badge.textContent.substring(18);
       badge.textContent = "";
       num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
-      chrome.runtime.sendMessage({ action: "updateTokenCount", numTokens: num_tokens});
+      chrome.runtime.sendMessage({
+        action: "updateTokenCount",
+        numTokens: num_tokens,
+      });
     }
   });
 
