@@ -4,13 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var tokenSaved = document.getElementById("token-count");
 
   dialogueWindow.style.display = "block";
-  chrome.runtime.sendMessage(
-    { action: "getTokenCount" },
-    function (response) {
-      const num_tokens = response.num;
-      tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
-    },
-  );
+  chrome.runtime.sendMessage({ action: "getTokenCount" }, function (response) {
+    const num_tokens = response.num;
+    tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
+  });
 
   toggleSwitch.addEventListener("change", function () {
     if (this.checked) {
