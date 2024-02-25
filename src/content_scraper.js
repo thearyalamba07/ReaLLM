@@ -61,10 +61,10 @@ if (textArea) {
         },
       );
 
-      chrome.runtime.sendMessage({
-        action: "displayPromptContent",
-        promptContent: promptContent,
-      });
+      // chrome.runtime.sendMessage({
+      //   action: "displayPromptContent",
+      //   promptContent: promptContent,
+      // });
     }
   });
   textArea.addEventListener("keydown", function (event) {
@@ -97,13 +97,13 @@ if (textArea) {
         "",
       );
       textArea.value = processedPrompt;
-      badge.textContent = "Processed prompt:";
-      tokbadge.textContent = "Tokens saved: 0";
       const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
       chrome.runtime.sendMessage({
         action: "updateTokenCount",
         numTokens: num_tokens,
       });
+      badge.textContent = "Processed prompt:";
+      tokbadge.textContent = "Tokens saved: 0";
     }
   });
 
