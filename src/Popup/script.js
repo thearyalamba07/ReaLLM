@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var carbonFootprint = document.getElementById("carbon-footprint");
 
   function calculateCarbonFootprint(numTokens) {
-    return numTokens * (70 / 400);
+    return numTokens * (3 / 35);
   }
 
   function turnOn() {
