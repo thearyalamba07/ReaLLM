@@ -3,26 +3,23 @@ document.addEventListener("DOMContentLoaded", function () {
   var dialogueWindow = document.getElementById("dialogue-window");
   var tokenSaved = document.getElementById("token-count");
 
+  function turnOn() {
+    dialogueWindow.textContent = `on`;
+    chrome.runtime.sendMessage(
+      { action: "getTokenCount" },
+      function (response) {
+        const num_tokens = response.num;
+        tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
+      },
+    );
+  }
+
+  turnOn();
   dialogueWindow.style.display = "block";
-  chrome.runtime.sendMessage(
-    { action: "getTokenCount" },
-    function (response) {
-      const num_tokens = response.num;
-      tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
-    },
-  );
 
   toggleSwitch.addEventListener("change", function () {
     if (this.checked) {
-      dialogueWindow.textContent = `on`;
-
-      chrome.runtime.sendMessage(
-        { action: "getTokenCount" },
-        function (response) {
-          const num_tokens = response.num;
-          tokenSaved.textContent = `Tokens saved: ${num_tokens}`;
-        },
-      );
+      turnOn();
     } else {
       tokenSaved.textContent = `...`;
       dialogueWindow.textContent = `...`;

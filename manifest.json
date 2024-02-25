@@ -10,9 +10,15 @@
     "128": "assets/new128.png"
   },
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "action": {
-    "default_popup": "src/Popup/popup.html"
+    "default_popup": "src/Popup/popup.html",
+    "default_icon": {
+      "16": "assets/new16.png",
+      "32": "assets/new32.png",
+      "48": "assets/new48.png",
+      "128": "assets/new128.png"
+    }
   },
   "background": {
     "service_worker": "src/background.js"
