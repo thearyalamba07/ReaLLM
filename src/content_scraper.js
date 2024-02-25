@@ -16,7 +16,8 @@ if (textArea) {
   textArea.insertAdjacentElement("afterend", button);
 
   textArea.addEventListener("input", function () {
-    if (event.data === " ") {
+    const inputData = event.data;
+    if (inputData === " " || inputData.match(/[.,!;:()]/)) {
       const text = textArea.value;
       chrome.runtime.sendMessage(
         { action: "runFunction", inputString: text },
@@ -27,6 +28,22 @@ if (textArea) {
           badge.textContent = `Processed prompt: ${prompt}`;
         },
       );
+    }
+  });
+  textArea.addEventListener("keydown", function (event) {
+    if (event.key === "Backspace") {
+      setTimeout(() => {
+        const text = textArea.value;
+        chrome.runtime.sendMessage(
+          { action: "runFunction", inputString: text },
+          function (response) {
+            prompt = response.message;
+            num_tokens = response.token;
+            updateTokBadge(num_tokens);
+            badge.textContent = `Processed prompt: ${prompt}`;
+          },
+        );
+      }, 0);
     }
   });
 
