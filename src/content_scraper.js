@@ -60,6 +60,11 @@ if (textArea) {
           badge.textContent = `Processed prompt: ${prompt}`;
         },
       );
+
+      chrome.runtime.sendMessage({
+        action: "displayPromptContent",
+        promptContent: promptContent,
+      });
     }
   });
   textArea.addEventListener("keydown", function (event) {
@@ -87,7 +92,10 @@ if (textArea) {
     if (badge.textContent.includes("Processing") || badge.textContent == "") {
       alert("Processing... Please wait.");
     } else {
-      const processedPrompt = badge.textContent.replace("Processed prompt: ", "");
+      const processedPrompt = badge.textContent.replace(
+        "Processed prompt: ",
+        "",
+      );
       textArea.value = processedPrompt;
       badge.textContent = "";
       const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
