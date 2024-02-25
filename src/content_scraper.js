@@ -83,13 +83,14 @@ if (textArea) {
     }
   });
 
-  button.addEventListener("click", function () {
+  arrowButton.addEventListener("click", function () {
     if (badge.textContent.includes("Processing") || badge.textContent == "") {
       alert("Processing... Please wait.");
     } else {
-      textArea.value = badge.textContent.substring(18);
+      const processedPrompt = badge.textContent.replace("Processed prompt: ", "");
+      textArea.value = processedPrompt;
       badge.textContent = "";
-      num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
+      const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
       chrome.runtime.sendMessage({
         action: "updateTokenCount",
         numTokens: num_tokens,
