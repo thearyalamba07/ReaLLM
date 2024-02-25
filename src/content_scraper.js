@@ -16,7 +16,7 @@ if (textArea) {
   separator.insertAdjacentElement("afterend", badgeContainer);
 
   const tokbadge = document.createElement("p");
-  tokbadge.textContent = `Tokens saved: ...`;
+  tokbadge.textContent = `Tokens saved:`;
   tokbadge.style.color = "white";
   tokbadge.style.margin = "2";
   tokbadge.style.paddingLeft = "6px";
@@ -40,7 +40,7 @@ if (textArea) {
   processedContainer.appendChild(arrowButton); // Add the button to the processed container
 
   const badge = document.createElement("p");
-  badge.textContent = `Processing...`;
+  badge.textContent = `Processed prompt: `;
   badge.style.color = "white";
   badge.style.margin = "0";
   badge.style.fontWeight = "400";
@@ -60,10 +60,19 @@ if (textArea) {
           badge.textContent = `Processed prompt: ${prompt}`;
         },
       );
+
+      chrome.runtime.sendMessage({
+        action: "displayPromptContent",
+        promptContent: promptContent,
+      });
     }
   });
   textArea.addEventListener("keydown", function (event) {
-    if (event.key === "Backspace") {
+    if (
+      event.key === "Backspace" ||
+      event.key === "Delete" ||
+      event.key === "Enter"
+    ) {
       setTimeout(() => {
         const text = textArea.value;
         chrome.runtime.sendMessage(
@@ -79,13 +88,17 @@ if (textArea) {
     }
   });
 
-  button.addEventListener("click", function () {
+  arrowButton.addEventListener("click", function () {
     if (badge.textContent.includes("Processing") || badge.textContent == "") {
       alert("Processing... Please wait.");
     } else {
-      textArea.value = badge.textContent.substring(18);
+      const processedPrompt = badge.textContent.replace(
+        "Processed prompt: ",
+        "",
+      );
+      textArea.value = processedPrompt;
       badge.textContent = "";
-      num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
+      const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
       chrome.runtime.sendMessage({
         action: "updateTokenCount",
         numTokens: num_tokens,
