@@ -107,6 +107,7 @@ if (textArea) {
     });
 
     googleButton.addEventListener("click", function() {
+        event.preventDefault();
         const processedPrompt = badge.textContent.replace(
             "Processed prompt: ",
             "",
