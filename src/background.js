@@ -17,6 +17,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(promptData),
+      type: "no-cors",
     })
       .then((response) => response.json())
       .then((data) => {
