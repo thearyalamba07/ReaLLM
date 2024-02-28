@@ -45,11 +45,32 @@ if (textArea) {
   badge.style.margin = "0";
   badge.style.fontWeight = "400";
   badge.style.fontSize = "14px";
-  processedContainer.appendChild(badge); // Add the badge to the processed container
+  processedContainer.appendChild(badge);
 
   const googleButton = document.createElement("button");
   googleButton.innerHTML = "GOOGLE";
   badgeContainer.insertAdjacentElement("afterend", googleButton);
+
+  let timeoutId;
+
+  function handleInput() {
+    clearTimeout(timeoutId);
+    console.log("input");
+    timeoutId = setTimeout(() => {
+      const text = textArea.value;
+      chrome.runtime.sendMessage(
+        { action: "runFunction", inputString: text },
+        function (response) {
+          prompt = response.message;
+          num_tokens = response.token;
+          updateTokBadge(num_tokens);
+          badge.textContent = `Processed prompt: ${prompt}`;
+        },
+      );
+    }, 1000);
+  }
+
+  textArea.addEventListener("input", handleInput);
 
   textArea.addEventListener("input", function () {
     const inputData = event.data;
