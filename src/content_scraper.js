@@ -73,7 +73,8 @@ if (textArea) {
     textArea.addEventListener("input", handleInput);
 
     textArea.addEventListener("input", function() {
-        const inputData = event.data;
+        var inputData = event.data;
+        inputData = inputData || "";
         if (inputData === " " || inputData.match(/[?.,!;:()]/)) {
             const text = textArea.value;
             chrome.runtime.sendMessage(
@@ -137,12 +138,18 @@ if (textArea) {
 
     googleButton.addEventListener("click", function() {
         event.preventDefault();
-        const processedPrompt = badge.textContent.replace("Processed prompt: ", "");
-        const url = `https://www.google.com/search?q=${processedPrompt}`;
-        window.open(url, "_blank");
-        textArea.value = "";
-        badge.textContent = "Processed prompt:";
-        tokbadge.textContent = "Tokens saved:";
+        if (textArea.value === "") {
+            alert("Enter a prompt");
+        } else if (badge.textContent === "Processed prompt: ") {
+            alert("Processing... Please wait.");
+        } else {
+            const processedPrompt = badge.textContent.replace("Processed prompt: ", "");
+            const url = `https://www.google.com/search?q=${processedPrompt}`;
+            window.open(url, "_blank");
+            textArea.value = "";
+            badge.textContent = "Processed prompt:";
+            tokbadge.textContent = "Tokens saved:";
+        }
     });
 
     function updateTokBadge(tokenCount) {
