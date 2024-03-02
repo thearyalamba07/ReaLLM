@@ -13,6 +13,8 @@ if (textArea) {
     badgeContainer.style.flexDirection = "column"; // Stack elements vertically
     badgeContainer.style.alignItems = "flex-start"; // Align items to the start
     badgeContainer.style.paddingLeft = "52px";
+    badgeContainer.style.height = "70px"; // Set a fixed height for the container
+    badgeContainer.style.overflowY = "auto"; // Enable vertical scrolling
     separator.insertAdjacentElement("afterend", badgeContainer);
 
     const tokbadge = document.createElement("p");
@@ -60,7 +62,7 @@ if (textArea) {
             const text = textArea.value;
             chrome.runtime.sendMessage(
                 { action: "runFunction", inputString: text },
-                function(response) {
+                function (response) {
                     prompt = response.message;
                     num_tokens = response.token;
                     updateTokBadge(num_tokens);
@@ -79,7 +81,7 @@ if (textArea) {
             const text = textArea.value;
             chrome.runtime.sendMessage(
                 { action: "runFunction", inputString: text },
-                function(response) {
+                function (response) {
                     prompt = response.message;
                     num_tokens = response.token;
                     updateTokBadge(num_tokens);
@@ -88,7 +90,7 @@ if (textArea) {
             );
         }
     });
-    textArea.addEventListener("keydown", function(event) {
+    textArea.addEventListener("keydown", function (event) {
         if (
             event.key === "Backspace" ||
             event.key === "Delete" ||
@@ -98,7 +100,7 @@ if (textArea) {
                 const text = textArea.value;
                 chrome.runtime.sendMessage(
                     { action: "runFunction", inputString: text },
-                    function(response) {
+                    function (response) {
                         prompt = response.message;
                         num_tokens = response.token;
                         updateTokBadge(num_tokens);
@@ -131,12 +133,12 @@ if (textArea) {
 
     }
 
-    arrowButton.addEventListener("click", function() {
+    arrowButton.addEventListener("click", function () {
         event.preventDefault();
         insertProcessedPrompt();
     });
 
-    googleButton.addEventListener("click", function() {
+    googleButton.addEventListener("click", function () {
         event.preventDefault();
         if (textArea.value === "") {
             alert("Enter a prompt");
@@ -156,7 +158,7 @@ if (textArea) {
         tokbadge.textContent = `Tokens saved: ${tokenCount}`;
     }
 
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.action === "insertNewPrompt") {
             insertProcessedPrompt();
         }

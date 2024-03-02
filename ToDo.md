@@ -16,8 +16,8 @@
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
 - [ ] Save user prompts - @Utkarsh
 - [ ] Google only when relevant - @Utkarsh
+- [ ] Google button co-efficient - @Utkarsh
 
 ##### Future?
 - [ ] Adding NLP features, generally improve the backend processing - @Utkarsh
     * Subjective and Objective??
-
