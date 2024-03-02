@@ -13,8 +13,8 @@
 - [ ] Google Button styling - @Arya
 - [ ] In popup, display % of tokens saved (and money?) - @Utkarsh @Arya
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
+- [ ] Google button co-efficient - @Utkarsh
 
 ##### Future?
 - [ ] Adding NLP features, generally improve the backend processing - @Utkarsh
     * Subjective and Objective??
-
