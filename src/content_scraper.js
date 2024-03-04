@@ -97,6 +97,7 @@ if (textArea) {
       );
       sendrequest(text, "space", processedPrompt);
     }
+
   });
 
   textArea.addEventListener("input", function () {
