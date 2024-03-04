@@ -82,7 +82,7 @@ if (textArea) {
         "",
       );
       sendrequest(text, "timer", processedPrompt);
-    }, 3000);
+    }, 2000);
   }
 
   textArea.addEventListener("input", handleInput);
