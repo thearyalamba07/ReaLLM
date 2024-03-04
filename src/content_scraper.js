@@ -55,9 +55,14 @@ if (textArea) {
 
   let timeoutId;
 
-  function sendrequest(text) {
+  function sendrequest(text, tag, prompt) {
     chrome.runtime.sendMessage(
-      { action: "runFunction", inputString: text },
+      {
+        action: "runFunction",
+        inputString: text,
+        key: tag,
+        prompt_string: prompt,
+      },
       function (response) {
         prompt = response.message;
         num_tokens = response.token;
@@ -72,8 +77,12 @@ if (textArea) {
     console.log("input");
     timeoutId = setTimeout(() => {
       const text = textArea.value;
-      sendrequest(text);
-    }, 1000);
+      const processedPrompt = badge.textContent.replace(
+        "Processed prompt: ",
+        "",
+      );
+      sendrequest(text, "timer", processedPrompt);
+    }, 3000);
   }
 
   textArea.addEventListener("input", handleInput);
@@ -82,7 +91,11 @@ if (textArea) {
     const inputData = event.data;
     if (inputData === " ") {
       const text = textArea.value;
-      sendrequest(text);
+      const processedPrompt = badge.textContent.replace(
+        "Processed prompt: ",
+        "",
+      );
+      sendrequest(text, "space", processedPrompt);
     }
   });
 
@@ -90,7 +103,11 @@ if (textArea) {
     const inputData = event.data;
     if (inputData.match(/[?.,!;:()]/)) {
       const text = textArea.value;
-      sendrequest(text);
+      const processedPrompt = badge.textContent.replace(
+        "Processed prompt: ",
+        "",
+      );
+      sendrequest(text, "punctuation", processedPrompt);
     }
   });
 
@@ -102,7 +119,15 @@ if (textArea) {
     ) {
       setTimeout(() => {
         const text = textArea.value;
-        sendrequest(text);
+        const processedPrompt = badge.textContent.replace(
+          "Processed prompt: ",
+          "",
+        );
+        // let lastChar = text.charAt(text.length - 1);
+
+        // if (/\s|\p{P}/u.test(lastChar)) {
+        sendrequest(text, "delete", processedPrompt);
+        // }
       }, 0);
     }
   });

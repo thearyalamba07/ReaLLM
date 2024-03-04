@@ -10,6 +10,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     const apiUrl = "http://127.0.0.1:8000/update_string";
     const promptData = {
       input_string: request.inputString,
+      key: request.key,
+      prompt_string: request.prompt_string,
     };
     fetch(apiUrl, {
       method: "POST",
