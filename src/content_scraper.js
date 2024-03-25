@@ -2,7 +2,7 @@ const textArea = document.getElementById("prompt-textarea");
 
 if (textArea) {
   const separator = document.createElement("hr");
-  separator.style.borderTop = "1px solid green";
+  separator.style.borderTop = "1px solid white";
   separator.style.width = "87%";
   separator.style.marginLeft = "auto";
   separator.style.marginRight = "auto";
