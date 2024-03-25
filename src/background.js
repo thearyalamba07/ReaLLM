@@ -53,6 +53,33 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "getTokenCount") {
     sendResponse({ num: tokenCount });
   }
+
+  if (request.action === "storePrompt") {
+    const apiUrl = "http://127.0.0.1:8000/store_prompt";
+    const promptData = {
+      input_string: request.inputString,
+      key: request.key,
+      prompt_string: request.prompt_string,
+    };
+
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(promptData),
+    })
+      .then(() => {
+        console.log("Prompt data stored successfully.");
+        sendResponse({ message: "success" });
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        sendResponse({ message: "error" });
+      });
+
+    return true;
+  }
 });
 
 chrome.commands.onCommand.addListener((command) => {

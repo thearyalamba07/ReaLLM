@@ -2,7 +2,7 @@ const textArea = document.getElementById("prompt-textarea");
 
 if (textArea) {
   const separator = document.createElement("hr");
-  separator.style.borderTop = "1px solid white";
+  separator.style.borderTop = "1px solid green";
   separator.style.width = "87%";
   separator.style.marginLeft = "auto";
   separator.style.marginRight = "auto";
@@ -13,8 +13,7 @@ if (textArea) {
   badgeContainer.style.flexDirection = "column"; // Stack elements vertically
   badgeContainer.style.alignItems = "flex-start"; // Align items to the start
   badgeContainer.style.paddingLeft = "52px";
-  // badgeContainer.style.height = "70px"; // Set a fixed height for the container
-  badgeContainer.style.overflowY = "auto"; // Enable vertical scrolling
+  badgeContainer.style.paddingRight = "52px";
   separator.insertAdjacentElement("afterend", badgeContainer);
 
   const tokbadge = document.createElement("p");
@@ -35,7 +34,7 @@ if (textArea) {
   arrowButton.innerHTML = "&#x27A4;";
   arrowButton.style.border = "none";
   arrowButton.style.background = "transparent";
-  arrowButton.style.color = "red";
+  arrowButton.style.color = "green";
   arrowButton.style.fontSize = "16px";
   arrowButton.style.cursor = "pointer";
   arrowButton.style.padding = "0px 8px";
@@ -47,6 +46,8 @@ if (textArea) {
   badge.style.margin = "0";
   badge.style.fontWeight = "400";
   badge.style.fontSize = "14px";
+  badge.style.overflowY = "auto"; // Enable vertical scrolling
+  badge.style.maxHeight = "50px"; // Set the maximum height of the badge
   processedContainer.appendChild(badge);
 
   const processedContainer2 = document.createElement("div"); // Create a container for the badge and button
@@ -128,23 +129,43 @@ if (textArea) {
   });
 
   textArea.addEventListener("keydown", function (event) {
-    if (
-      event.key === "Backspace" ||
-      event.key === "Delete" ||
-      event.key === "Enter"
-    ) {
+    if (event.key === "Backspace" || event.key === "Delete") {
       setTimeout(() => {
         const text = textArea.value;
         const processedPrompt = badge.textContent.replace(
           "Processed prompt: ",
           "",
         );
-        // let lastChar = text.charAt(text.length - 1);
-
-        // if (/\s|\p{P}/u.test(lastChar)) {
         sendrequest(text, "delete", processedPrompt);
-        // }
       }, 0);
+    }
+  });
+
+  function storePrompt(text, tag, prompt) {
+    chrome.runtime.sendMessage(
+      {
+        action: "storePrompt",
+        inputString: text,
+        key: tag,
+        prompt_string: prompt,
+      },
+      function (response) {
+        console.log(response.message);
+      },
+    );
+  }
+  textArea.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      setTimeout(() => {
+        const text = textArea.value;
+        const processedPrompt = badge.textContent.replace(
+          "Processed prompt: ",
+          "",
+        );
+        storePrompt(text, "Enter", processedPrompt);
+      }, 0);
+      badge.textContent = "Processed prompt: ";
+      tokbadge.textContent = "Tokens saved: ";
     }
   });
 
@@ -171,6 +192,11 @@ if (textArea) {
 
   arrowButton.addEventListener("click", function () {
     event.preventDefault();
+    storePrompt(
+      textArea.value,
+      "arrow",
+      badge.textContent.replace("Processed prompt: ", ""),
+    );
     insertProcessedPrompt();
   });
 
