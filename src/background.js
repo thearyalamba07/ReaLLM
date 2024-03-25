@@ -30,6 +30,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
          */
         console.log(data);
         sendResponse({
+          coefficient: data.coefficient,
           message: data.output_string,
           token:
             parseInt(data.tokens_original, 10) -

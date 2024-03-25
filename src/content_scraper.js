@@ -13,7 +13,7 @@ if (textArea) {
   badgeContainer.style.flexDirection = "column"; // Stack elements vertically
   badgeContainer.style.alignItems = "flex-start"; // Align items to the start
   badgeContainer.style.paddingLeft = "52px";
-  badgeContainer.style.height = "70px"; // Set a fixed height for the container
+  // badgeContainer.style.height = "70px"; // Set a fixed height for the container
   badgeContainer.style.overflowY = "auto"; // Enable vertical scrolling
   separator.insertAdjacentElement("afterend", badgeContainer);
 
@@ -38,7 +38,7 @@ if (textArea) {
   arrowButton.style.color = "red";
   arrowButton.style.fontSize = "16px";
   arrowButton.style.cursor = "pointer";
-  arrowButton.style.padding = "6px 8px";
+  arrowButton.style.padding = "0px 8px";
   processedContainer.appendChild(arrowButton); // Add the button to the processed container
 
   const badge = document.createElement("p");
@@ -49,9 +49,23 @@ if (textArea) {
   badge.style.fontSize = "14px";
   processedContainer.appendChild(badge);
 
+  const processedContainer2 = document.createElement("div"); // Create a container for the badge and button
+  processedContainer2.style.display = "flex"; // Set the display to flex for horizontal alignment
+  processedContainer2.style.alignItems = "center"; // Align items vertically in the center
+  processedContainer2.style.justifyContent = "center"; // Align items horizontally in the center
+  badgeContainer.insertAdjacentElement("afterend", processedContainer2); // Add the processed container to the badge container
+
   const googleButton = document.createElement("button");
   googleButton.innerHTML = "GOOGLE";
-  badgeContainer.insertAdjacentElement("afterend", googleButton);
+  processedContainer2.appendChild(googleButton);
+
+  const textbox = document.createElement("p");
+  textbox.textContent = `0`;
+  textbox.style.color = "white";
+  textbox.style.margin = "0 10px";
+  textbox.style.fontWeight = "400";
+  textbox.style.fontSize = "14px";
+  processedContainer2.appendChild(textbox);
 
   let timeoutId;
 
@@ -66,8 +80,10 @@ if (textArea) {
       function (response) {
         prompt = response.message;
         num_tokens = response.token;
+        coef = response.coefficient;
         updateTokBadge(num_tokens);
         badge.textContent = `Processed prompt: ${prompt}`;
+        textbox.textContent = coef;
       },
     );
   }
@@ -97,7 +113,6 @@ if (textArea) {
       );
       sendrequest(text, "space", processedPrompt);
     }
-
   });
 
   textArea.addEventListener("input", function () {
