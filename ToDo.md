@@ -6,10 +6,10 @@
 - [ ] Fix UI for GPT 4 and GPT 3.5 - @Arya
 - [ ] Find appropriate backend deployment service and DEPLOY - @All
 - [ ] Fix Bug that when ChatGPT is first opened, the plugin doesn't - @Malhar @Utkarsh
-- [x] Input data match null bug that shows in chrome extension manager - @Malhar
+- [x] Input data match null bug that shows in chrome extension manager - @Utkarsh
 - [x] Google button gets clicked even when no prompt entered - @Malhar
-- [ ] Prompts not being saved when we hit enter
 - [ ] finetune all events and clicks and their results
+- [x] Save prompts when user hits enter
 
 ### Features
 - [x] Google Button added - @Malhar
