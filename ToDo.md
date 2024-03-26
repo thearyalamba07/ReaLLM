@@ -9,6 +9,7 @@
 - [x] Input data match null bug that shows in chrome extension manager - @Malhar
 - [x] Google button gets clicked even when no prompt entered - @Malhar
 - [ ] Prompts not being saved when we hit enter
+- [ ] finetune all events and clicks and their results
 
 ### Features
 - [x] Google Button added - @Malhar
@@ -27,6 +28,7 @@
 ### Misc - @Any
 - [ ] Remove all waste files (especially assets) (and whatever .DS_Store is)
 - [ ] Add gitignore so that stupid files like DS_ignore dont creep in
+- [ ] Add comments and beautify and clean code
 - [ ] Add a README.md
     * Add a GIF of the extension in action
     * What ReaLLM
