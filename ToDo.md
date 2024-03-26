@@ -12,7 +12,7 @@
 
 ### Features
 - [x] Google Button added - @Malhar
-- [x] Google Button styling - @Arya
+- [ ] Google Button styling - @Arya
 - [ ] In popup, display % of tokens saved (and money?) - @Utkarsh @Arya
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
 - [x] Save user prompts - @Utkarsh
