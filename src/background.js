@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       input_string: request.inputString,
       key: request.key,
       prompt_string: request.prompt_string,
+      clipboard_string: request.clipboard_data,
     };
     fetch(apiUrl, {
       method: "POST",

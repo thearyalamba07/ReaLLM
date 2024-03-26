@@ -70,13 +70,29 @@ if (textArea) {
 
   let timeoutId;
 
+  function ClipboardData() {
+    var clipboardData = "";
+    var tempInput = document.createElement("input");
+    tempInput.style.position = "fixed";
+    tempInput.style.opacity = 0;
+    document.body.appendChild(tempInput);
+    tempInput.focus();
+    document.execCommand("paste");
+    clipboardData = tempInput.value;
+    document.body.removeChild(tempInput);
+    return clipboardData;
+  }
+
   function sendrequest(text, tag, prompt) {
+    clipboard = "";
+    clipboard = ClipboardData();
     chrome.runtime.sendMessage(
       {
         action: "runFunction",
         inputString: text,
         key: tag,
         prompt_string: prompt,
+        clipboard_data: clipboard,
       },
       function (response) {
         prompt = response.message;
