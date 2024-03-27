@@ -1,4 +1,5 @@
 const textArea = document.getElementById("prompt-textarea");
+var clipboard = "";
 
 if (textArea) {
   const separator = document.createElement("hr");
@@ -70,22 +71,19 @@ if (textArea) {
 
   let timeoutId;
 
-  function ClipboardData() {
-    var clipboardData = "";
-    var tempInput = document.createElement("input");
-    tempInput.style.position = "fixed";
-    tempInput.style.opacity = 0;
-    document.body.appendChild(tempInput);
-    tempInput.focus();
-    document.execCommand("paste");
-    clipboardData = tempInput.value;
-    document.body.removeChild(tempInput);
-    return clipboardData;
-  }
+  textArea.onpaste = function (e) {
+    var pastedText = undefined;
+    if (window.clipboardData && window.clipboardData.getData) {
+      // IE
+      pastedText = window.clipboardData.getData("Text");
+    } else if (e.clipboardData && e.clipboardData.getData) {
+      pastedText = e.clipboardData.getData("text/plain");
+    }
+    clipboard = pastedText;
+  };
 
   function sendrequest(text, tag, prompt) {
-    clipboard = "";
-    clipboard = ClipboardData();
+    textArea.focus();
     chrome.runtime.sendMessage(
       {
         action: "runFunction",
@@ -107,14 +105,13 @@ if (textArea) {
 
   function handleInput() {
     clearTimeout(timeoutId);
-    console.log("input");
     timeoutId = setTimeout(() => {
       const text = textArea.value;
       const processedPrompt = badge.textContent.replace(
         "Processed prompt: ",
         "",
       );
-      sendrequest(text, "timer", processedPrompt);
+      sendrequest(text, "timer", processedPrompt, "");
     }, 2000);
   }
 
@@ -134,7 +131,11 @@ if (textArea) {
 
   textArea.addEventListener("input", function () {
     const inputData = event.data;
-    if (inputData.match(/[?.,!;:()]/)) {
+    if (
+      inputData !== null &&
+      inputData !== undefined &&
+      inputData.match(/[?.,!;:()]/)
+    ) {
       const text = textArea.value;
       const processedPrompt = badge.textContent.replace(
         "Processed prompt: ",
@@ -170,10 +171,22 @@ if (textArea) {
       },
     );
   }
+
   textArea.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
+      var text = "";
       setTimeout(() => {
-        const text = textArea.value;
+        var divElements = document.querySelectorAll('div[class=""]');
+
+        var lastDivElement = Array.from(divElements).pop();
+
+        if (lastDivElement) {
+          var text = lastDivElement.textContent.trim();
+          console.log("Text content of the last div element:", text);
+        } else {
+          console.log("Last div element not found");
+        }
+
         const processedPrompt = badge.textContent.replace(
           "Processed prompt: ",
           "",
@@ -214,6 +227,7 @@ if (textArea) {
       badge.textContent.replace("Processed prompt: ", ""),
     );
     insertProcessedPrompt();
+    textArea.focus();
   });
 
   googleButton.addEventListener("click", function () {
@@ -224,6 +238,7 @@ if (textArea) {
     textArea.value = "";
     badge.textContent = "Processed prompt:";
     tokbadge.textContent = "Tokens saved:";
+    textArea.focus();
   });
 
   function updateTokBadge(tokenCount) {

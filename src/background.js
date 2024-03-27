@@ -62,16 +62,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       key: request.key,
       prompt_string: request.prompt_string,
     };
-
     fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(promptData),
+      type: "no-cors",
     })
       .then(() => {
         console.log("Prompt data stored successfully.");
+        console.log(promptData);
         sendResponse({ message: "success" });
       })
       .catch((error) => {
