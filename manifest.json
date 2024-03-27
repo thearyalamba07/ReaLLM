@@ -10,7 +10,7 @@
     "128": "assets/new128.png"
   },
 
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage", "activeTab", "clipboardRead", "clipboardWrite"],
   "action": {
     "default_popup": "src/Popup/popup.html",
     "default_icon": {
