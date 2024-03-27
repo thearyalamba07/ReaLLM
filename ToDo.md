@@ -19,7 +19,7 @@
 - [x] Save user prompts - @Utkarsh
 - [ ] Google only when relevant - @Utkarsh
 - [x] Google button co-efficient - @Utkarsh
-- [ ] No processing once detected paste from clipboard
+- [x] No processing once detected paste from clipboard
 
 ##### Future?
 - [ ] Adding NLP features, generally improve the backend processing - @Utkarsh
