@@ -1,7 +1,20 @@
+function sendMessage(text) {
+  chrome.runtime.sendMessage(
+    {
+      action: "message",
+      input: text,
+    },
+    function (response) {
+      console.log(response.message);
+    },
+  );
+}
+
 const textArea = document.getElementById("prompt-textarea");
 var clipboard = "";
 
 if (textArea) {
+  sendMessage("reload");
   const separator = document.createElement("hr");
   separator.style.borderTop = "1px solid white";
   separator.style.width = "87%";
@@ -97,7 +110,7 @@ if (textArea) {
         prompt = response.message;
         num_tokens = response.token;
         coef = response.coefficient;
-        update(text, prompt, num_tokens, coef);
+        update(prompt, num_tokens, coef);
       },
     );
   }

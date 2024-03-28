@@ -1,5 +1,5 @@
 let tokenCount = 0;
-
+let signal = "";
 chrome.storage.local.get(["tokenCount"], function (result) {
   tokenCount = result.tokenCount || 0;
 });
@@ -77,13 +77,24 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     return true;
   }
+
+  if (request.action === "message") {
+    signal = request.input;
+    sendResponse({ message: "success" });
+  }
 });
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === "sendPrompt") {
-    console.log(`Command: ${command}`);
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { action: "insertNewPrompt" });
     });
+  }
+});
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  if (changeInfo.status == "loading" && signal === "reload") {
+    signal = "";
+    chrome.tabs.reload(tabId);
   }
 });
