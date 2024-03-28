@@ -10,7 +10,16 @@
     "128": "assets/new128.png"
   },
 
-  "permissions": ["storage", "activeTab", "clipboardRead", "clipboardWrite"],
+  "host_permissions": ["https://chat.openai.com/*"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+    "tabs",
+    "scripting"
+  ],
+
   "action": {
     "default_popup": "src/Popup/popup.html",
     "default_icon": {

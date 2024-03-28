@@ -1,5 +1,5 @@
 let tokenCount = 0;
-
+let signal = "";
 chrome.storage.local.get(["tokenCount"], function (result) {
   tokenCount = result.tokenCount || 0;
 });
@@ -24,11 +24,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     })
       .then((response) => response.json())
       .then((data) => {
-        /* data.output_string contains the optimized promptData
-         * data.tokens_original contains the original token num
-         * data.tokens_processed contains the optimized promptData token num
-         * data.coefficient contains the google coefficient of the promptData
-         */
         console.log(data);
         sendResponse({
           coefficient: data.coefficient,
@@ -82,13 +77,25 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     return true;
   }
+
+  if (request.action === "message") {
+    signal = request.input;
+    sendResponse({ message: "success" });
+  }
+
 });
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === "sendPrompt") {
-    console.log(`Command: ${command}`);
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { action: "insertNewPrompt" });
     });
+  }
+});
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  if (changeInfo.status == "loading" && signal === "reload") {
+    signal = "";
+    chrome.tabs.reload(tabId);
   }
 });

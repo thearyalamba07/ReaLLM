@@ -1,7 +1,20 @@
+function sendMessage(text) {
+  chrome.runtime.sendMessage(
+    {
+      action: "message",
+      input: text,
+    },
+    function (response) {
+      console.log(response.message);
+    },
+  );
+}
+
 const textArea = document.getElementById("prompt-textarea");
 var clipboard = "";
 
 if (textArea) {
+  sendMessage("reload");
   const separator = document.createElement("hr");
   separator.style.borderTop = "1px solid white";
   separator.style.width = "87%";
@@ -71,10 +84,10 @@ if (textArea) {
 
   let timeoutId;
 
+  // Gets data whenever something is pasted in the text area
   textArea.onpaste = function (e) {
     var pastedText = undefined;
     if (window.clipboardData && window.clipboardData.getData) {
-      // IE
       pastedText = window.clipboardData.getData("Text");
     } else if (e.clipboardData && e.clipboardData.getData) {
       pastedText = e.clipboardData.getData("text/plain");
@@ -82,6 +95,7 @@ if (textArea) {
     clipboard = pastedText;
   };
 
+  // Sends a request to the background script to process the prompt
   function sendrequest(text, tag, prompt) {
     textArea.focus();
     chrome.runtime.sendMessage(
@@ -96,13 +110,12 @@ if (textArea) {
         prompt = response.message;
         num_tokens = response.token;
         coef = response.coefficient;
-        updateTokBadge(num_tokens);
-        badge.textContent = `Processed prompt: ${prompt}`;
-        textbox.textContent = coef;
+        update(prompt, num_tokens, coef);
       },
     );
   }
 
+  // Calls request function if the user stops typing for 2 seconds
   function handleInput() {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
@@ -117,6 +130,7 @@ if (textArea) {
 
   textArea.addEventListener("input", handleInput);
 
+  // Calls request function if space is pressed
   textArea.addEventListener("input", function () {
     const inputData = event.data;
     if (inputData === " ") {
@@ -129,6 +143,7 @@ if (textArea) {
     }
   });
 
+  // Calls request function if punctuation is pressed
   textArea.addEventListener("input", function () {
     const inputData = event.data;
     if (
@@ -145,6 +160,7 @@ if (textArea) {
     }
   });
 
+  // Calls request function if backspace or delete is pressed
   textArea.addEventListener("keydown", function (event) {
     if (event.key === "Backspace" || event.key === "Delete") {
       setTimeout(() => {
@@ -158,6 +174,7 @@ if (textArea) {
     }
   });
 
+  // Sends a request to the background script to store the prompt
   function storePrompt(text, tag, prompt) {
     chrome.runtime.sendMessage(
       {
@@ -172,14 +189,13 @@ if (textArea) {
     );
   }
 
+  // Calls storePrompt function if enter is pressed
   textArea.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       var text = "";
       setTimeout(() => {
         var divElements = document.querySelectorAll('div[class=""]');
-
         var lastDivElement = Array.from(divElements).pop();
-
         if (lastDivElement) {
           var text = lastDivElement.textContent.trim();
           console.log("Text content of the last div element:", text);
@@ -193,11 +209,9 @@ if (textArea) {
         );
         storePrompt(text, "Enter", processedPrompt);
       }, 0);
-      badge.textContent = "Processed prompt: ";
-      tokbadge.textContent = "Tokens saved: ";
+      update("", 0, 0);
     }
   });
-
   function insertProcessedPrompt() {
     if (textArea.value === "") {
       alert("Enter a prompt");
@@ -214,11 +228,11 @@ if (textArea) {
         action: "updateTokenCount",
         numTokens: num_tokens,
       });
-      badge.textContent = "Processed prompt: ";
-      tokbadge.textContent = "Tokens saved: ";
+      update("", 0, 0);
     }
   }
 
+  // Calls storePrompt function if the arrow button is clicked
   arrowButton.addEventListener("click", function () {
     event.preventDefault();
     storePrompt(
@@ -230,21 +244,25 @@ if (textArea) {
     textArea.focus();
   });
 
+  // Opens a new tab with a Google search for the processed prompt
   googleButton.addEventListener("click", function () {
     event.preventDefault();
     const processedPrompt = badge.textContent.replace("Processed prompt: ", "");
     const url = `https://www.google.com/search?q=${processedPrompt}`;
     window.open(url, "_blank");
     textArea.value = "";
-    badge.textContent = "Processed prompt:";
-    tokbadge.textContent = "Tokens saved:";
+    update("", 0, 0);
     textArea.focus();
   });
 
-  function updateTokBadge(tokenCount) {
-    tokbadge.textContent = `Tokens saved: ${tokenCount}`;
+  // Updates the fields
+  function update(prompt, token, coef) {
+    badge.textContent = `Processed prompt: ${prompt}`;
+    tokbadge.textContent = `Tokens saved: ${token}`;
+    textbox.textContent = coef;
   }
 
+  // Listens for messages from the background script
   chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
       if (request.action === "insertNewPrompt") {
