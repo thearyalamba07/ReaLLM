@@ -124,7 +124,7 @@ if (textArea) {
         "Processed prompt: ",
         "",
       );
-      sendrequest(text, "timer", processedPrompt);
+      sendrequest(text, "timer", processedPrompt, "");
     }, 2000);
   }
 
@@ -212,8 +212,6 @@ if (textArea) {
       update("", 0, 0);
     }
   });
-
-  // Replaces the text area with the processed prompt
   function insertProcessedPrompt() {
     if (textArea.value === "") {
       alert("Enter a prompt");

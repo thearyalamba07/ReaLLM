@@ -9,6 +9,7 @@
     "48": "assets/new48.png",
     "128": "assets/new128.png"
   },
+
   "host_permissions": ["https://chat.openai.com/*"],
   "permissions": [
     "storage",
@@ -18,6 +19,7 @@
     "tabs",
     "scripting"
   ],
+
   "action": {
     "default_popup": "src/Popup/popup.html",
     "default_icon": {
