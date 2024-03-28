@@ -1,7 +1,7 @@
 ## ToDo
 
 ### Bug Fixes
-- [ ] On/Off button in popup controlling whole popup - @Malhar
+- [x] On/Off button in popup controlling whole popup - @Malhar
 - [x] Processed Prompt into a scrollable view if processed prompt is long (styling) - @Arya
 - [ ] Fix UI for GPT 4 and GPT 3.5 - @Arya
 - [ ] Find appropriate backend deployment service and DEPLOY - @All
@@ -14,9 +14,16 @@
 - [ ] Save prompts in a better way not csv
 - [ ] Improve UI
 - [ ] Popup display
+- [ ] Save prompts even when shortcut is pressed (ctrl+shift+Y)
+- [ ] "AI" gets corrected to "A"
+- [ ] old prompt comes back to textarea after popup is clicked
+- [ ] scrollable UI is not so readable
+- [ ] processing is still occurring after pasting from clipboard
 
 ### Features
 - [x] Google Button added - @Malhar
+- [ ] Google Button styling - @Arya
+- [ ] In popup, display % of tokens saved (and money?) - @Utkarsh @Arya
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
 - [x] Save user prompts - @Utkarsh
 - [ ] Google only when relevant - @Utkarsh
