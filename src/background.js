@@ -24,11 +24,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     })
       .then((response) => response.json())
       .then((data) => {
-        /* data.output_string contains the optimized promptData
-         * data.tokens_original contains the original token num
-         * data.tokens_processed contains the optimized promptData token num
-         * data.coefficient contains the google coefficient of the promptData
-         */
         console.log(data);
         sendResponse({
           coefficient: data.coefficient,
