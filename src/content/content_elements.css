@@ -1,0 +1,59 @@
+#separator {
+    border-top: 1px solid white;
+    width: 87%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#badge-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    padding-left: 52px;
+    padding-right: 52px;
+}
+
+#tokbadge {
+    color: white;
+    margin: 2;
+    padding-left: 6px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+#processed-container {
+    display: flex; 
+    align-items: center;
+}
+
+#arrow-button {
+    border: none;
+    background: transparent;
+    color: green;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0px 8px;
+}
+
+#badge {
+    color: white;
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    overflow-y: auto; 
+    max-height: 50px;
+}
+
+#processed-container2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#google-button {
+    color: white;
+    margin: 0 10px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
