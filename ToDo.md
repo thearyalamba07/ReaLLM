@@ -12,11 +12,11 @@
 - [x] Save prompts when user hits enter
 - [ ] Co-efficient code can be better
 - [ ] Save prompts in a better way not csv
+- [ ] Improve UI
+- [ ] Popup display
 
 ### Features
 - [x] Google Button added - @Malhar
-- [ ] Google Button styling - @Arya
-- [ ] In popup, display % of tokens saved (and money?) - @Utkarsh @Arya
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
 - [x] Save user prompts - @Utkarsh
 - [ ] Google only when relevant - @Utkarsh
