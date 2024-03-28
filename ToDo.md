@@ -8,7 +8,7 @@
 - [ ] Fix Bug that when ChatGPT is first opened, the plugin doesn't - @Malhar @Utkarsh
 - [x] Input data match null bug that shows in chrome extension manager - @Utkarsh
 - [x] Google button gets clicked even when no prompt entered - @Malhar
-- [ ] finetune all events and clicks and their results
+- [x] finetune all events and clicks and their results
 - [x] Save prompts when user hits enter
 - [ ] Co-efficient code can be better
 - [ ] Save prompts in a better way not csv
