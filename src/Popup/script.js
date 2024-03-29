@@ -23,15 +23,11 @@ document.addEventListener("DOMContentLoaded", function() {
     chrome.storage.local.get('isOn', function(data) {
         // Update the checkbox state based on the stored value
         toggleSwitch.checked = data.isOn;
-        if (toggleSwitch.checked) {
-            turnOn();
-        }
+        turnOn();
     });
 
     toggleSwitch.addEventListener("change", function() {
         chrome.storage.local.set({ isOn: this.checked });
-        if (this.checked) {
-            turnOn();
-        }
+        turnOn();
     });
 });
