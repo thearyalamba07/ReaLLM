@@ -14,7 +14,7 @@
 - [ ] Save prompts in a better way not csv
 - [ ] Improve UI + Google
 - [ ] Popup display + what to show
-- [ ] Save prompts even when shortcut is pressed (ctrl+shift+Y)
+- [x] Save prompts even when shortcut is pressed (ctrl+shift+Y)
 - [ ] "AI" gets corrected to "A"
 - [ ] old prompt comes back to textarea after popup is clicked
 - [ ] scrollable UI is not so readable
