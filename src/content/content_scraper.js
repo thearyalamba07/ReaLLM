@@ -10,18 +10,23 @@ function sendMessage(text) {
     );
 }
 
-const textArea = document.getElementById("prompt-textarea");
 
 function injectElements() {
 
+    const textArea = document.getElementById("prompt-textarea");
+    const submitButton = textArea.nextSibling;
+
     var clipboard = "";
 
-    if (textArea) {
+    if (textArea && submitButton) {
         sendMessage("reload");
+
+        // change class of submitButton
+        submitButton.className = "absolute top-3 right-2 rounded-lg border border-black bg-black p-0.5 text-white transition-colors enabled:bg-black disabled:text-gray-400 disabled:opacity-10 dark:border-white dark:bg-white dark:hover:bg-white md:top-3 md:right-3";
 
         const separator = document.createElement("hr");
         separator.id = "separator";
-        textArea.insertAdjacentElement("afterend", separator);
+        submitButton.insertAdjacentElement("afterend", separator);
 
         const badgeContainer = document.createElement("div");
         badgeContainer.id = "badge-container";
