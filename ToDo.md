@@ -15,7 +15,7 @@
 - [ ] Improve UI + Google
 - [ ] Popup display + what to show
 - [x] Save prompts even when shortcut is pressed (ctrl+shift+Y)
-- [ ] "AI" gets corrected to "A"
+- [x] "AI" gets corrected to "A"
 - [ ] old prompt comes back to textarea after popup is clicked
 - [ ] scrollable UI is not so readable
 - [ ] processing is still occurring after pasting from clipboard
