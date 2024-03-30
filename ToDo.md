@@ -12,8 +12,8 @@
 - [x] Save prompts when user hits enter
 - [ ] Co-efficient code can be better
 - [ ] Save prompts in a better way not csv
-- [ ] Improve UI
-- [ ] Popup display
+- [ ] Improve UI + Google
+- [ ] Popup display + what to show
 - [ ] Save prompts even when shortcut is pressed (ctrl+shift+Y)
 - [ ] "AI" gets corrected to "A"
 - [ ] old prompt comes back to textarea after popup is clicked
@@ -22,8 +22,6 @@
 
 ### Features
 - [x] Google Button added - @Malhar
-- [ ] Google Button styling - @Arya
-- [ ] In popup, display % of tokens saved (and money?) - @Utkarsh @Arya
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
 - [x] Save user prompts - @Utkarsh
 - [ ] Google only when relevant - @Utkarsh
