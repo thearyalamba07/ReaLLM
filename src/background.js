@@ -1,5 +1,8 @@
 let tokenCount = 0;
 let signal = "";
+
+chrome.storage.local.set({ isOn: true });
+
 chrome.storage.local.get(["tokenCount"], function (result) {
   tokenCount = result.tokenCount || 0;
 });
