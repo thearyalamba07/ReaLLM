@@ -1,18 +1,17 @@
 function sendMessage(text) {
-    chrome.runtime.sendMessage(
-        {
-            action: "message",
-            input: text,
-        },
-        function(response) {
-            console.log(response.message);
-        },
-    );
+  chrome.runtime.sendMessage(
+    {
+      action: "message",
+      input: text,
+    },
+    function (response) {
+      console.log(response.message);
+    },
+  );
 }
 
 
 function injectElements() {
-
     const textArea = document.getElementById("prompt-textarea");
     const submitButton = textArea.nextSibling;
 
@@ -172,126 +171,143 @@ function injectElements() {
             );
         }
 
-        // Calls storePrompt function if enter is pressed
-        textArea.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                var text = "";
-                setTimeout(() => {
-                    var divElements = document.querySelectorAll('div[class=""]');
-                    var lastDivElement = Array.from(divElements).pop();
-                    if (lastDivElement) {
-                        var text = lastDivElement.textContent.trim();
-                        console.log("Text content of the last div element:", text);
-                    } else {
-                        console.log("Last div element not found");
-                    }
+    // Calls storePrompt function if enter is pressed
+    textArea.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        var text = "";
+        setTimeout(() => {
+          var divElements = document.querySelectorAll('div[class=""]');
+          var lastDivElement = Array.from(divElements).pop();
+          if (lastDivElement) {
+            var text = lastDivElement.textContent.trim();
+            console.log("Text content of the last div element:", text);
+          } else {
+            console.log("Last div element not found");
+          }
 
-                    const processedPrompt = badge.textContent.replace(
-                        "Processed prompt: ",
-                        "",
-                    );
-                    storePrompt(text, "Enter", processedPrompt);
-                }, 0);
-                update("", 0, 0);
-            }
-        });
-        function insertProcessedPrompt() {
-            if (textArea.value === "") {
-                alert("Enter a prompt");
-            } else if (badge.textContent === "Processed prompt: ") {
-                alert("Processing... Please wait.");
-            } else {
-                const processedPrompt = badge.textContent.replace(
-                    "Processed prompt: ",
-                    "",
-                );
-                textArea.value = processedPrompt;
-                const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
-                chrome.runtime.sendMessage({
-                    action: "updateTokenCount",
-                    numTokens: num_tokens,
-                });
-                update("", 0, 0);
-            }
-        }
-
-        // Calls storePrompt function if the arrow button is clicked
-        arrowButton.addEventListener("click", function() {
-            event.preventDefault();
-            storePrompt(
-                textArea.value,
-                "arrow",
-                badge.textContent.replace("Processed prompt: ", ""),
-            );
-            insertProcessedPrompt();
-            textArea.focus();
-        });
-
-        // Opens a new tab with a Google search for the processed prompt
-        googleButton.addEventListener("click", function() {
-            event.preventDefault();
-            const processedPrompt = badge.textContent.replace("Processed prompt: ", "");
-            const url = `https://www.google.com/search?q=${processedPrompt}`;
-            window.open(url, "_blank");
-            textArea.value = "";
-            update("", 0, 0);
-            textArea.focus();
-        });
-
-        // Updates the fields
-        function update(prompt, token, coef) {
-            badge.textContent = `Processed prompt: ${prompt}`;
-            tokbadge.textContent = `Tokens saved: ${token}`;
-            textbox.textContent = coef;
-        }
-
-        // Listens for messages from the background script
-        chrome.runtime.onMessage.addListener(
-            function(request, sender, sendResponse) {
-                if (request.action === "insertNewPrompt") {
-                    insertProcessedPrompt();
-                }
-            },
+          const processedPrompt = badge.textContent.replace(
+            "Processed prompt: ",
+            "",
+          );
+          storePrompt(text, "Enter", processedPrompt);
+        }, 0);
+        update("", 0, 0);
+      }
+    });
+    function insertProcessedPrompt() {
+      if (textArea.value === "") {
+        alert("Enter a prompt");
+      } else if (badge.textContent === "Processed prompt: ") {
+        alert("Processing... Please wait.");
+      } else {
+        const processedPrompt = badge.textContent.replace(
+          "Processed prompt: ",
+          "",
         );
+        storePrompt(textArea.value, "arrow", processedPrompt);
+        textArea.value = processedPrompt;
+        const num_tokens = parseInt(tokbadge.textContent.substring(14), 10);
+        chrome.runtime.sendMessage({
+          action: "updateTokenCount",
+          numTokens: num_tokens,
+        });
+        update("", 0, 0);
+      }
     }
+
+    // Calls storePrompt function if the arrow button is clicked
+    arrowButton.addEventListener("click", function () {
+      event.preventDefault();
+      insertProcessedPrompt();
+      textArea.focus();
+    });
+
+    // Opens a new tab with a Google search for the processed prompt
+    googleButton.addEventListener("click", function () {
+      event.preventDefault();
+      const processedPrompt = badge.textContent.replace(
+        "Processed prompt: ",
+        "",
+      );
+      const url = `https://www.google.com/search?q=${processedPrompt}`;
+      window.open(url, "_blank");
+      textArea.value = "";
+      update("", 0, 0);
+      textArea.focus();
+    });
+
+    // Updates the fields
+    function update(prompt, token, coef) {
+      badge.textContent = `Processed prompt: ${prompt}`;
+      tokbadge.textContent = `Tokens saved: ${token}`;
+      textbox.textContent = coef;
+    }
+
+    // Listens for messages from the background script
+    chrome.runtime.onMessage.addListener(
+      function (request, sender, sendResponse) {
+        if (request.action === "insertNewPrompt") {
+          insertProcessedPrompt();
+        }
+      },
+    );
+  }
 }
 
 function removeElements() {
-    const separator = document.getElementById("separator");
-    const tokbadge = document.getElementById("tokbadge");
-    const arrowButton = document.getElementById("arrow-button");
-    const badge = document.getElementById("badge");
-    const processedContainer = document.getElementById("processed-container");
-    const googleButton = document.getElementById("google-button");
-    const textbox = document.getElementById("textbox");
-    const processedContainer2 = document.getElementById("processed-container2");
-    const badgeContainer = document.getElementById("badge-container");
+  const separator = document.getElementById("separator");
+  const tokbadge = document.getElementById("tokbadge");
+  const arrowButton = document.getElementById("arrow-button");
+  const badge = document.getElementById("badge");
+  const processedContainer = document.getElementById("processed-container");
+  const googleButton = document.getElementById("google-button");
+  const textbox = document.getElementById("textbox");
+  const processedContainer2 = document.getElementById("processed-container2");
+  const badgeContainer = document.getElementById("badge-container");
 
-    if (separator) { separator.remove(); }
-    if (tokbadge) { tokbadge.remove(); }
-    if (arrowButton) { arrowButton.remove(); }
-    if (badge) { badge.remove(); }
-    if (processedContainer) { processedContainer.remove(); }
-    if (googleButton) { googleButton.remove(); }
-    if (textbox) { textbox.remove(); }
-    if (processedContainer2) { processedContainer2.remove(); }
-    if (badgeContainer) { badgeContainer.remove(); }
+  if (separator) {
+    separator.remove();
+  }
+  if (tokbadge) {
+    tokbadge.remove();
+  }
+  if (arrowButton) {
+    arrowButton.remove();
+  }
+  if (badge) {
+    badge.remove();
+  }
+  if (processedContainer) {
+    processedContainer.remove();
+  }
+  if (googleButton) {
+    googleButton.remove();
+  }
+  if (textbox) {
+    textbox.remove();
+  }
+  if (processedContainer2) {
+    processedContainer2.remove();
+  }
+  if (badgeContainer) {
+    badgeContainer.remove();
+  }
 }
 
-chrome.storage.local.get("isOn", function(data) {
-    if (data.isOn) {
-        injectElements();
-    } else {
-        removeElements();
-    }
+chrome.storage.local.get("isOn", function (data) {
+  if (data.isOn) {
+    injectElements();
+  } else {
+    removeElements();
+  }
 });
 
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-    if (changes.isOn) {
-        if (changes.isOn.newValue) {
-            injectElements();
-        } else {
-            removeElements();
-        }
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+  if (changes.isOn) {
+    if (changes.isOn.newValue) {
+      injectElements();
+    } else {
+      removeElements();
     }
+  }
 });
