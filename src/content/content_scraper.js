@@ -10,161 +10,166 @@ function sendMessage(text) {
   );
 }
 
-const textArea = document.getElementById("prompt-textarea");
 
 function injectElements() {
-  var clipboard = "";
+    const textArea = document.getElementById("prompt-textarea");
+    const submitButton = textArea.nextSibling;
 
-  if (textArea) {
-    sendMessage("reload");
+    var clipboard = "";
 
-    const separator = document.createElement("hr");
-    separator.id = "separator";
-    textArea.insertAdjacentElement("afterend", separator);
+    if (textArea && submitButton) {
+        sendMessage("reload");
 
-    const badgeContainer = document.createElement("div");
-    badgeContainer.id = "badge-container";
-    separator.insertAdjacentElement("afterend", badgeContainer);
+        // change class of submitButton
+        submitButton.className = "absolute top-3 right-2 rounded-lg border border-black bg-black p-0.5 text-white transition-colors enabled:bg-black disabled:text-gray-400 disabled:opacity-10 dark:border-white dark:bg-white dark:hover:bg-white md:top-3 md:right-3";
 
-    const tokbadge = document.createElement("p");
-    tokbadge.textContent = `Tokens saved:`;
-    tokbadge.id = "tokbadge";
-    badgeContainer.appendChild(tokbadge);
+        const separator = document.createElement("hr");
+        separator.id = "separator";
+        submitButton.insertAdjacentElement("afterend", separator);
 
-    const processedContainer = document.createElement("div");
-    processedContainer.id = "processed-container";
-    badgeContainer.appendChild(processedContainer);
+        const badgeContainer = document.createElement("div");
+        badgeContainer.id = "badge-container";
+        separator.insertAdjacentElement("afterend", badgeContainer);
 
-    const arrowButton = document.createElement("button");
-    arrowButton.innerHTML = "&#x27A4;";
-    arrowButton.id = "arrow-button";
-    processedContainer.appendChild(arrowButton);
+        const tokbadge = document.createElement("p");
+        tokbadge.textContent = `Tokens saved:`;
+        tokbadge.id = "tokbadge";
+        badgeContainer.appendChild(tokbadge);
 
-    const badge = document.createElement("p");
-    badge.textContent = `Processed prompt: `;
-    badge.id = "badge";
-    processedContainer.appendChild(badge);
+        const processedContainer = document.createElement("div");
+        processedContainer.id = "processed-container";
+        badgeContainer.appendChild(processedContainer);
 
-    const processedContainer2 = document.createElement("div");
-    processedContainer2.id = "processed-container2";
-    badgeContainer.insertAdjacentElement("afterend", processedContainer2);
+        const arrowButton = document.createElement("button");
+        arrowButton.innerHTML = "&#x27A4;";
+        arrowButton.id = "arrow-button";
+        processedContainer.appendChild(arrowButton);
 
-    const googleButton = document.createElement("button");
-    googleButton.innerHTML = "GOOGLE";
-    googleButton.id = "google-button";
-    processedContainer2.appendChild(googleButton);
+        const badge = document.createElement("p");
+        badge.textContent = `Processed prompt: `;
+        badge.id = "badge";
+        processedContainer.appendChild(badge);
 
-    const textbox = document.createElement("p");
-    textbox.textContent = `0`;
-    textbox.id = "textbox";
-    processedContainer2.appendChild(textbox);
+        const processedContainer2 = document.createElement("div");
+        processedContainer2.id = "processed-container2";
+        badgeContainer.insertAdjacentElement("afterend", processedContainer2);
 
-    let timeoutId;
+        const googleButton = document.createElement("button");
+        googleButton.innerHTML = "GOOGLE";
+        googleButton.id = "google-button";
+        processedContainer2.appendChild(googleButton);
 
-    // Gets data whenever something is pasted in the text area
-    textArea.onpaste = function (e) {
-      var pastedText = undefined;
-      if (window.clipboardData && window.clipboardData.getData) {
-        pastedText = window.clipboardData.getData("Text");
-      } else if (e.clipboardData && e.clipboardData.getData) {
-        pastedText = e.clipboardData.getData("text/plain");
-      }
-      clipboard = pastedText;
-    };
+        const textbox = document.createElement("p");
+        textbox.textContent = `0`;
+        textbox.id = "textbox";
+        processedContainer2.appendChild(textbox);
 
-    // Sends a request to the background script to process the prompt
-    function sendrequest(text, tag, prompt) {
-      textArea.focus();
-      chrome.runtime.sendMessage(
-        {
-          action: "runFunction",
-          inputString: text,
-          key: tag,
-          prompt_string: prompt,
-          clipboard_data: clipboard,
-        },
-        function (response) {
-          prompt = response.message;
-          num_tokens = response.token;
-          coef = response.coefficient;
-          update(prompt, num_tokens, coef);
-        },
-      );
-    }
+        let timeoutId;
 
-    // Calls request function if the user stops typing for 2 seconds
-    function handleInput() {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        const text = textArea.value;
-        const processedPrompt = badge.textContent.replace(
-          "Processed prompt: ",
-          "",
-        );
-        sendrequest(text, "timer", processedPrompt, "");
-      }, 2000);
-    }
+        // Gets data whenever something is pasted in the text area
+        textArea.onpaste = function(e) {
+            var pastedText = undefined;
+            if (window.clipboardData && window.clipboardData.getData) {
+                pastedText = window.clipboardData.getData("Text");
+            } else if (e.clipboardData && e.clipboardData.getData) {
+                pastedText = e.clipboardData.getData("text/plain");
+            }
+            clipboard = pastedText;
+        };
 
-    textArea.addEventListener("input", handleInput);
+        // Sends a request to the background script to process the prompt
+        function sendrequest(text, tag, prompt) {
+            textArea.focus();
+            chrome.runtime.sendMessage(
+                {
+                    action: "runFunction",
+                    inputString: text,
+                    key: tag,
+                    prompt_string: prompt,
+                    clipboard_data: clipboard,
+                },
+                function(response) {
+                    prompt = response.message;
+                    num_tokens = response.token;
+                    coef = response.coefficient;
+                    update(prompt, num_tokens, coef);
+                },
+            );
+        }
 
-    // Calls request function if space is pressed
-    textArea.addEventListener("input", function () {
-      const inputData = event.data;
-      if (inputData === " ") {
-        const text = textArea.value;
-        const processedPrompt = badge.textContent.replace(
-          "Processed prompt: ",
-          "",
-        );
-        sendrequest(text, "space", processedPrompt);
-      }
-    });
+        // Calls request function if the user stops typing for 2 seconds
+        function handleInput() {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                const text = textArea.value;
+                const processedPrompt = badge.textContent.replace(
+                    "Processed prompt: ",
+                    "",
+                );
+                sendrequest(text, "timer", processedPrompt, "");
+            }, 2000);
+        }
 
-    // Calls request function if punctuation is pressed
-    textArea.addEventListener("input", function () {
-      const inputData = event.data;
-      if (
-        inputData !== null &&
-        inputData !== undefined &&
-        inputData.match(/[?.,!;:()]/)
-      ) {
-        const text = textArea.value;
-        const processedPrompt = badge.textContent.replace(
-          "Processed prompt: ",
-          "",
-        );
-        sendrequest(text, "punctuation", processedPrompt);
-      }
-    });
+        textArea.addEventListener("input", handleInput);
 
-    // Calls request function if backspace or delete is pressed
-    textArea.addEventListener("keydown", function (event) {
-      if (event.key === "Backspace" || event.key === "Delete") {
-        setTimeout(() => {
-          const text = textArea.value;
-          const processedPrompt = badge.textContent.replace(
-            "Processed prompt: ",
-            "",
-          );
-          sendrequest(text, "delete", processedPrompt);
-        }, 0);
-      }
-    });
+        // Calls request function if space is pressed
+        textArea.addEventListener("input", function() {
+            const inputData = event.data;
+            if (inputData === " ") {
+                const text = textArea.value;
+                const processedPrompt = badge.textContent.replace(
+                    "Processed prompt: ",
+                    "",
+                );
+                sendrequest(text, "space", processedPrompt);
+            }
+        });
 
-    // Sends a request to the background script to store the prompt
-    function storePrompt(text, tag, prompt) {
-      chrome.runtime.sendMessage(
-        {
-          action: "storePrompt",
-          inputString: text,
-          key: tag,
-          prompt_string: prompt,
-        },
-        function (response) {
-          console.log(response.message);
-        },
-      );
-    }
+        // Calls request function if punctuation is pressed
+        textArea.addEventListener("input", function() {
+            const inputData = event.data;
+            if (
+                inputData !== null &&
+                inputData !== undefined &&
+                inputData.match(/[?.,!;:()]/)
+            ) {
+                const text = textArea.value;
+                const processedPrompt = badge.textContent.replace(
+                    "Processed prompt: ",
+                    "",
+                );
+                sendrequest(text, "punctuation", processedPrompt);
+            }
+        });
+
+        // Calls request function if backspace or delete is pressed
+        textArea.addEventListener("keydown", function(event) {
+            if (event.key === "Backspace" || event.key === "Delete") {
+                setTimeout(() => {
+                    const text = textArea.value;
+                    const processedPrompt = badge.textContent.replace(
+                        "Processed prompt: ",
+                        "",
+                    );
+                    sendrequest(text, "delete", processedPrompt);
+                }, 0);
+            }
+        });
+
+        // Sends a request to the background script to store the prompt
+        function storePrompt(text, tag, prompt) {
+            chrome.runtime.sendMessage(
+                {
+                    action: "storePrompt",
+                    inputString: text,
+                    key: tag,
+                    prompt_string: prompt,
+                },
+                function(response) {
+                    console.log(response.message);
+                },
+            );
+        }
 
     // Calls storePrompt function if enter is pressed
     textArea.addEventListener("keydown", function (event) {
