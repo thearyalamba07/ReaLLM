@@ -18,7 +18,7 @@
 - [x] "AI" gets corrected to "A"
 - [ ] old prompt comes back to textarea after popup is clicked
 - [ ] scrollable UI is not so readable
-- [ ] processing is still occurring after pasting from clipboard
+- [ ] Remove NoCors?? (I read somewhere that No CORS should only be used for testing)
 
 ### Features
 - [x] Google Button added - @Malhar
