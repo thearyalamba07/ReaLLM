@@ -10,13 +10,10 @@
 - [x] Save prompts when user hits enter
 - [x] Save prompts even when shortcut is pressed (ctrl+shift+Y)
 - [x] "AI" gets corrected to "A"
-
-- [ ] Fix UI for GPT 4 and GPT 3.5 - @Arya
+- [ ] Fix UI for GPT 4 and GPT 3.5, Google, Placement - @Arya
 - [ ] Find appropriate backend deployment service and DEPLOY - @All
-- [ ] Improve UI + Google
-- [ ] Popup display + what to show
+- [ ] Refresh
 - [ ] old prompt comes back to textarea after popup is clicked
-- [ ] scrollable UI is not so readable
 - [ ] Remove NoCors?? (I read somewhere that No CORS should only be used for testing)
 
 ### Non-Critical
@@ -24,20 +21,19 @@
 - [x] Save user prompts - @Utkarsh
 - [x] Google button co-efficient - @Utkarsh
 - [x] No processing once detected paste from clipboard
-
-- [ ] Google only when relevant - @Utkarsh
+- [ ] Animation for google - @Utkarsh
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
+- [ ] Scrollable UI is not so readable
+- [ ] Co-efficient code can be better - maybe JSON
+- [ ] Save prompts in a better way not csv
 
 ### Far Future(?)
-- [ ] Co-efficient code can be better
-- [ ] Save prompts in a better way not csv
 - [ ] Adding NLP features, generally improve the backend processing - @Utkarsh
     * Subjective and Objective??
 
 ### Misc - @Any
 - [ ] Remove all waste files (especially assets) (and whatever .DS_Store is)
 - [ ] Add gitignore so that stupid files like DS_ignore dont creep in
-- [ ] Add comments and beautify and clean code
 - [ ] Add a README.md
     * Add a GIF of the extension in action
     * What ReaLLM
