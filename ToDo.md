@@ -30,13 +30,9 @@
 ### Far Future(?)
 - [ ] Adding NLP features, generally improve the backend processing - @Utkarsh
     * Subjective and Objective??
+- [ ] Abbreviations.txt
 
 ### Misc - @Any
-- [ ] Remove all waste files (especially assets) (and whatever .DS_Store is)
-- [ ] Add gitignore so that stupid files like DS_ignore dont creep in
-- [ ] Add a README.md
-    * Add a GIF of the extension in action
-    * What ReaLLM
-    * Installation + usage instructions
-    * Insert "dadi dadu somewhere randomly"
-    * Probably get ChatGPT to do all this crap
+- [ ] Remove all waste files (especially assets)
+- [x] Add gitignore so that stupid files like DS_ignore dont creep in
+- [x] Add a README.md
