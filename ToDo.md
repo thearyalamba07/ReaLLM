@@ -3,24 +3,25 @@
 ### Bug Fixes
 - [x] On/Off button in popup controlling whole popup - @Malhar
 - [x] Processed Prompt into a scrollable view if processed prompt is long (styling) - @Arya
-- [ ] Fix UI for GPT 4 and GPT 3.5 - @Arya
-- [ ] Find appropriate backend deployment service and DEPLOY - @All
 - [x] Fix Bug that when ChatGPT is first opened, the plugin doesn't - @Malhar @Utkarsh
 - [x] Input data match null bug that shows in chrome extension manager - @Utkarsh
 - [x] Google button gets clicked even when no prompt entered - @Malhar
 - [x] finetune all events and clicks and their results
 - [x] Save prompts when user hits enter
+- [x] Save prompts even when shortcut is pressed (ctrl+shift+Y)
+- [x] "AI" gets corrected to "A"
+- [ ] Fix UI for GPT 4 and GPT 3.5 - @Arya
 - [ ] Co-efficient code can be better
 - [ ] Save prompts in a better way not csv
 - [ ] Improve UI + Google
 - [ ] Popup display + what to show
-- [x] Save prompts even when shortcut is pressed (ctrl+shift+Y)
-- [x] "AI" gets corrected to "A"
+- [ ] Refresh
 - [ ] old prompt comes back to textarea after popup is clicked
 - [ ] scrollable UI is not so readable
 - [ ] Remove NoCors?? (I read somewhere that No CORS should only be used for testing)
 
 ### Features
+- [ ] Find appropriate backend deployment service and DEPLOY - @All
 - [x] Google Button added - @Malhar
 - [ ] Dropdown near button - and feature to limit words - @Arya @Utkarsh
 - [x] Save user prompts - @Utkarsh
