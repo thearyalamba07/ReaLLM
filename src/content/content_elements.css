@@ -87,25 +87,17 @@
  
  #logo {
      position: relative;
-     width: 40px; /* Reduced from 75px to 40px */
-     height: 40px; /* Reduced from 75px to 40px */
+     width: 25px; /* Reduced from 75px to 40px */
+     height: 25px; /* Reduced from 75px to 40px */
      border-radius: 50%;
-     margin-left: auto;
+     margin-bottom: 0%;
+     margin-left: 370px;
      margin-right: auto;
      overflow: hidden;
      border: 3px solid #f1f1f1; /* Adjusted proportionally */
      box-shadow: 0 0px 1px rgba(0,0,0,0.12), 0 0.5px 0.75px rgba(0,0,0,0.24); 
  }
  
- 
- 
- /* #logo .g-line,
- #logo .red,
- #logo .yellow,
- #logo .green,
- #logo .blue {
-     transform: scale(0.25); */
-     /* Scale down the internal elements of the logo */
  
  
  #logo::after {
@@ -189,4 +181,37 @@
      top: 0px;
      background: #f44336;
  }
+ .dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-btn {
+    background-color: transparent;
+    color: white;
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
  
