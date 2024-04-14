@@ -356,8 +356,9 @@ function injectElements() {
     separator.insertAdjacentElement("afterend", badgeContainer);
 
     const tokbadge = document.createElement("p");
-    tokbadge.textContent = `Tokens saved:`;
-    tokbadge.style.paddingLeft = "10px";
+    tokbadge.textContent = `Tokens Saved:`;
+    tokbadge.style.paddingLeft = "12px";
+    tokbadge.style.marginLeft ="10px"
     tokbadge.id = "tokbadge";
     badgeContainer.appendChild(tokbadge);
 
@@ -372,10 +373,11 @@ function injectElements() {
     arrowButton.innerHTML = "&#x27A4;";
     arrowButton.id = "arrow-button";
     arrowButton.style.marginRight = '10px';
+    arrowButton.style.color = 'green';
     processedContainer.appendChild(arrowButton);
 
     const badge = document.createElement("p");
-    badge.textContent = `Processed prompt: `;
+    badge.textContent = `Processed Prompt: `;
     badge.id = "badge";
     processedContainer.appendChild(badge);
 
@@ -402,6 +404,70 @@ function injectElements() {
     textbox.textContent = `0`;
     textbox.id = "textbox";
     processedContainer2.appendChild(textbox);
+
+    // Create dropdown container
+    const dropdownContainer = document.createElement("div");
+    dropdownContainer.className = 'dropdown-container';
+    dropdownContainer.style.top = "0"; // Position at the top
+    dropdownContainer.style.right = "0"; // Position at the right
+    dropdownContainer.style.position = "relative"; // Set position to relative
+    dropdownContainer.style.display = "inline-block";
+    dropdownContainer.style.marginRight = "0px";
+    dropdownContainer.style.marginLeft = "520px";
+    dropdownContainer.style.bottom = "500px";
+    dropdownContainer.style.zIndex = "1"; // Display as inline-block
+    processedContainer.appendChild(dropdownContainer); // Append to processedContainer
+
+    const dropdownButton = document.createElement("button");
+    dropdownButton.innerText = "Options";
+    dropdownButton.className = 'dropdown-btn';
+    dropdownButton.style.border = "none";
+    dropdownButton.style.background = "transparent";
+    dropdownButton.style.color = "white";
+    dropdownButton.style.cursor = "pointer";
+    dropdownButton.style.padding = "8px 16px";
+    dropdownButton.style.zIndex = "1";
+    dropdownContainer.appendChild(dropdownButton);
+
+    const dropdownMenu = document.createElement("div");
+    dropdownMenu.className = 'dropdown-content';
+    dropdownMenu.style.display = "none";
+    dropdownMenu.style.position = "absolute"; // Set position to absolute
+    dropdownMenu.style.backgroundColor = "transparent";
+    dropdownMenu.style.minWidth = "12px";
+    dropdownMenu.style.boxShadow = "0px 8px 16px 0px rgba(0,0,0,0.2)";
+    dropdownMenu.style.zIndex = "1";
+    dropdownMenu.style.overflowY = 'auto'; // Enable vertical scrollbar if needed
+    dropdownMenu.style.maxHeight = '40px'
+    dropdownContainer.appendChild(dropdownMenu);
+
+    const options = ["Default", "50", "100", "200", "400"];
+    options.forEach(option => {
+      const menuItem = document.createElement("a");
+      menuItem.textContent = option;
+      menuItem.href = "#";
+      menuItem.style.color = "white";
+      menuItem.style.zIndex = "1000";
+      menuItem.style.padding = "6px 8px";
+      menuItem.style.textDecoration = "none";
+      menuItem.style.display = "block";
+      menuItem.addEventListener("click", function (event) {
+        event.preventDefault();
+        console.log("You selected:", option);
+      });
+      dropdownMenu.appendChild(menuItem);
+    });
+
+    dropdownButton.addEventListener("click", function (event) {
+      event.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+    window.addEventListener("click", function (event) {
+      if (!event.target.matches('.dropdown-btn') && !event.target.matches('.dropdown-content a')) {
+        dropdownMenu.style.display = "none";
+      }
+    });
 
     let timeoutId;
 
@@ -442,7 +508,7 @@ function injectElements() {
       timeoutId = setTimeout(() => {
         const text = textArea.value;
         const processedPrompt = badge.textContent.replace(
-          "Processed prompt: ",
+          "Processed Prompt: ",
           ""
         );
         sendrequest(text, "timer", processedPrompt, "");
@@ -480,7 +546,6 @@ function injectElements() {
         sendrequest(text, "punctuation", processedPrompt);
       }
     });
-
     // Calls request function if backspace or delete is pressed
     textArea.addEventListener("keydown", function (event) {
       if (event.key === "Backspace" || event.key === "Delete") {
@@ -533,6 +598,7 @@ function injectElements() {
         update("", 0, 0);
       }
     });
+
     function insertProcessedPrompt() {
       if (textArea.value === "") {
         alert("Enter a prompt");
@@ -587,75 +653,15 @@ function injectElements() {
         }
       }
     );
-
-    // Add dropdown container
-    const container = document.querySelector('#logo-container');
-    const dropdownContainer = document.createElement("div");
-    dropdownContainer.className = 'dropdown-container';
-    dropdownContainer.style.position = "absolute";
-    dropdownContainer.style.right = "0px";
-    dropdownContainer.style.width = "100px";
-    dropdownContainer.style.height = "50px";
-    container.appendChild(dropdownContainer);
-
-    const dropdownButton = document.createElement("button");
-    dropdownButton.innerText = "Options";
-    dropdownButton.className = 'dropdown-btn';
-    dropdownButton.style.border = "none";
-    dropdownButton.style.background = "transparent";
-    dropdownButton.style.color = "white";
-    dropdownButton.style.cursor = "pointer";
-    dropdownButton.style.padding = "8px 16px";
-    dropdownContainer.appendChild(dropdownButton);
-
-    const dropdownMenu = document.createElement("div");
-    dropdownMenu.className = 'dropdown-content';
-    dropdownMenu.style.display = "none";
-    dropdownMenu.style.position = "absolute";
-    dropdownMenu.style.backgroundColor = "transparent";
-    dropdownMenu.style.minWidth = "16px";
-    dropdownMenu.style.boxShadow = "0px 8px 16px 0px rgba(0,0,0,0.2)";
-    dropdownMenu.style.zIndex = "1";
-    dropdownContainer.appendChild(dropdownMenu);
-
-    const options = ["Default", "50", "100", "200", "400"];
-    options.forEach(option => {
-      const menuItem = document.createElement("a");
-      menuItem.textContent = option;
-      menuItem.href = "#";
-      menuItem.style.color = "black";
-      menuItem.style.padding = "12px 16px";
-      menuItem.style.textDecoration = "none";
-      menuItem.style.display = "block";
-      menuItem.addEventListener("click", function (event) {
-        event.preventDefault();
-        console.log("You selected:", option);
-      });
-      dropdownMenu.appendChild(menuItem);
-    });
-
-    dropdownButton.addEventListener("click", function (event) {
-      event.stopPropagation();
-      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-    });
-
-    window.addEventListener("click", function (event) {
-      if (!event.target.matches('.dropdown-btn')) {
-        if (dropdownMenu.style.display === "block") {
-          dropdownMenu.style.display = "none";
-        }
-      }
-    });
   }
 }
-
 function removeElements() {
   const separator = document.getElementById("separator");
   const tokbadge = document.getElementById("tokbadge");
   const arrowButton = document.getElementById("arrow-button");
   const badge = document.getElementById("badge");
   const processedContainer = document.getElementById("processed-container");
-  const googleButton = document.getElementById("google-button");
+  const googleButton = document.getElementById("logo-container");
   const textbox = document.getElementById("textbox");
   const processedContainer2 = document.getElementById("processed-container2");
   const badgeContainer = document.getElementById("badge-container");
