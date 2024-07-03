@@ -10,7 +10,8 @@
         "128": "assets/new128.png"
     },
     "host_permissions": [
-        "https://chat.openai.com/*"
+        "https://chat.openai.com/*",
+        "https://chatgpt.com/*"
     ],
     "permissions": [
         "storage",
@@ -35,7 +36,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://chat.openai.com/*"
+                "https://chat.openai.com/*",
+                "https://chatgpt.com/*"
             ],
             "js": [
                 "src/content/content_scraper.js"
