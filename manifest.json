@@ -1,59 +1,69 @@
 {
-    "manifest_version": 3,
-    "name": "ReaLLM",
-    "description": "Save the Planet by improving your LLM prompts ",
-    "version": "0.1.0",
-    "icons": {
-        "16": "assets/new16.png",
-        "32": "assets/new32.png",
-        "48": "assets/new48.png",
-        "128": "assets/new128.png"
-    },
-    "host_permissions": [
+  "manifest_version": 3,
+  "name": "ReaLLM",
+  "description": "Save the Planet by improving your LLM prompts ",
+  "version": "0.1.0",
+  "icons": {
+    "16": "assets/new16.png",
+    "32": "assets/new32.png",
+    "48": "assets/new48.png",
+    "128": "assets/new128.png"
+  },
+  "host_permissions": [
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/content/content_inject.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+    "tabs",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "src/Popup/popup.html",
+    "default_icon": {
+      "16": "assets/new16.png",
+      "32": "assets/new32.png",
+      "48": "assets/new48.png",
+      "128": "assets/new128.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
         "https://chat.openai.com/*",
         "https://chatgpt.com/*"
-    ],
-    "permissions": [
-        "storage",
-        "activeTab",
-        "clipboardRead",
-        "clipboardWrite",
-        "tabs",
-        "scripting"
-    ],
-    "action": {
-        "default_popup": "src/Popup/popup.html",
-        "default_icon": {
-            "16": "assets/new16.png",
-            "32": "assets/new32.png",
-            "48": "assets/new48.png",
-            "128": "assets/new128.png"
-        }
-    },
-    "background": {
-        "service_worker": "src/background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://chat.openai.com/*",
-                "https://chatgpt.com/*"
-            ],
-            "js": [
-                "src/content/content_scraper.js"
-            ],
-            "css": [
-                "src/content/content_elements.css"
-            ]
-        }
-    ],
-    "commands": {
-        "sendPrompt": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+Y",
-                "mac": "Command+Shift+Y"
-            },
-            "description": "Enters processed prompt instead of original prompt"
-        }
+      ],
+      "js": [
+        "src/content/content_scraper.js"
+      ],
+      "css": [
+        "src/content/content_elements.css"
+      ]
     }
+  ],
+  "commands": {
+    "sendPrompt": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Enters processed prompt instead of original prompt"
+    }
+  }
 }

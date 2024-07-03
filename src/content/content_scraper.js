@@ -18,49 +18,36 @@ function injectElements() {
 
   var clipboard = "";
 
-  if (textArea && submitButton) {
+  if (textArea && submitButton && parentDiv) {
     sendMessage("reload");
 
-    const separator = document.createElement("hr");
-    separator.id = "separator";
-    parentDiv.insertAdjacentElement("afterend", separator);
+    const reallmDiv = document.createElement("div");
+    reallmDiv.id = "reallmDiv";
+    parentDiv.insertAdjacentElement("afterend", reallmDiv);
 
-    const badgeContainer = document.createElement("div");
-    badgeContainer.id = "badge-container";
-    separator.insertAdjacentElement("afterend", badgeContainer);
+    reallmDiv.innerHTML =
+      '<hr id="separator">' 
+    + '<div id="badge-container">'
+    +   '<p id="tokbadge">Tokens saved:</p>'
+    +   '<div id="processed-container">'
+    +     '<button id="arrow-button">&#x27A4;</button>'
+    +     '<p id="badge">Processed prompt:</p>'
+    +   "</div>"
+    + "</div>"
+    + '<div id="processed-container2">'
+    +   '<button id="google-button">GOOGLE</button>'
+    +   '<p id="textbox">0</p>'
+    + '</div>';
 
-    const tokbadge = document.createElement("p");
-    tokbadge.textContent = `Tokens saved:`;
-    tokbadge.id = "tokbadge";
-    badgeContainer.appendChild(tokbadge);
-
-    const processedContainer = document.createElement("div");
-    processedContainer.id = "processed-container";
-    badgeContainer.appendChild(processedContainer);
-
-    const arrowButton = document.createElement("button");
-    arrowButton.innerHTML = "&#x27A4;";
-    arrowButton.id = "arrow-button";
-    processedContainer.appendChild(arrowButton);
-
-    const badge = document.createElement("p");
-    badge.textContent = `Processed prompt: `;
-    badge.id = "badge";
-    processedContainer.appendChild(badge);
-
-    const processedContainer2 = document.createElement("div");
-    processedContainer2.id = "processed-container2";
-    badgeContainer.insertAdjacentElement("afterend", processedContainer2);
-
-    const googleButton = document.createElement("button");
-    googleButton.innerHTML = "GOOGLE";
-    googleButton.id = "google-button";
-    processedContainer2.appendChild(googleButton);
-
-    const textbox = document.createElement("p");
-    textbox.textContent = `0`;
-    textbox.id = "textbox";
-    processedContainer2.appendChild(textbox);
+    const separator = document.getElementById("seperator");
+    const badgeContainer = document.getElementById("badge-container");
+    const tokbadge = document.getElementById("tokbadge");
+    const processedContainer = document.getElementById("processed-container");
+    const arrowButton = document.getElementById("arrow-button");
+    const badge = document.getElementById("badge");
+    const processedContainer2 = document.getElementById("processed-container2");
+    const googleButton = document.getElementById("google-button");
+    const textbox = document.getElementById("textbox");
 
     let timeoutId;
 
@@ -253,43 +240,8 @@ function injectElements() {
 }
 
 function removeElements() {
-  const separator = document.getElementById("separator");
-  const tokbadge = document.getElementById("tokbadge");
-  const arrowButton = document.getElementById("arrow-button");
-  const badge = document.getElementById("badge");
-  const processedContainer = document.getElementById("processed-container");
-  const googleButton = document.getElementById("google-button");
-  const textbox = document.getElementById("textbox");
-  const processedContainer2 = document.getElementById("processed-container2");
-  const badgeContainer = document.getElementById("badge-container");
-
-  if (separator) {
-    separator.remove();
-  }
-  if (tokbadge) {
-    tokbadge.remove();
-  }
-  if (arrowButton) {
-    arrowButton.remove();
-  }
-  if (badge) {
-    badge.remove();
-  }
-  if (processedContainer) {
-    processedContainer.remove();
-  }
-  if (googleButton) {
-    googleButton.remove();
-  }
-  if (textbox) {
-    textbox.remove();
-  }
-  if (processedContainer2) {
-    processedContainer2.remove();
-  }
-  if (badgeContainer) {
-    badgeContainer.remove();
-  }
+  const reallmDiv = document.getElementById("reallmDiv");
+  reallmDiv.innerHTML = "";
 }
 
 chrome.storage.local.get("isOn", function (data) {
