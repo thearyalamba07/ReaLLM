@@ -85,7 +85,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     signal = request.input;
     sendResponse({ message: "success" });
   }
-
 });
 
 chrome.commands.onCommand.addListener((command) => {
